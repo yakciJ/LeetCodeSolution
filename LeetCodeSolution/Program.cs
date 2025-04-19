@@ -7,44 +7,44 @@
         // 18/4/2025
         public static void Main()
         {
-            Console.WriteLine(CountAndSay(4));
+            Console.WriteLine(Solution(new int[] { 0, 1, 4, 4, 5, 7 }, 3, 6));
         }
-        public static string CountAndSay(int n)
+        public static long Solution(int[] n, int lower, int upper)
         {
-            string S = "1";
-            int count = 1;
-            if (n == 1)
+            Array.Sort(n);
+            long first = 0;
+            long last = n.Length - 1;
+            long countUpper = 0;
+            long countLower = 0;
+            while (first < last)
             {
-                return S;
-            }
-            for (int i = 1; i < n; i++)
-            {
-                string S2 = "";
-                char value = S[0];
-                count = 0;
-                for (int j = 0; j < S.Length; j++)
+                long sum = n[first] + n[last];
+                if (sum <= upper)
                 {
-                    if (S[j] == value)
-                    {
-                        count++;
-                    }
-                    else
-                    {
-                        S2 += count.ToString() + "" + value;
-                        value = S[j];
-                        count = 1;
-                    }
-                    if (j == S.Length - 1)
-                    {
-                        S2 += count.ToString() + "" + value;
-                        value = S[j];
-                        count = 1;
-                        break;
-                    }
+                    countUpper += last - first;
+                    first++;
                 }
-                S = S2;
+                else
+                {
+                    last--;
+                }
             }
-            return S;
+            first = 0;
+            last = n.Length - 1;
+            while (first < last)
+            {
+                long sum = n[first] + n[last];
+                if (sum < lower)
+                {
+                    countLower += last - first;
+                    first++;
+                }
+                else
+                {
+                    last--;
+                }
+            }
+            return countUpper - countLower;
         }
     }
 }
