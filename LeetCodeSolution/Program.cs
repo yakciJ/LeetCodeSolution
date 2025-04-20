@@ -1,50 +1,36 @@
 ﻿namespace LeetCodeSolution
 {
     using System;
+    using System.Collections.Generic;
 
     class Program
     {
-        // 18/4/2025
+        // 20/4/2025
         public static void Main()
         {
-            Console.WriteLine(Solution(new int[] { 0, 1, 4, 4, 5, 7 }, 3, 6));
+            Console.WriteLine(Solution(new int[] { 0, 0, 1, 1, 1 }));
         }
-        public static long Solution(int[] n, int lower, int upper)
+        public static int Solution(int[] n)
         {
-            Array.Sort(n);
-            long first = 0;
-            long last = n.Length - 1;
-            long countUpper = 0;
-            long countLower = 0;
-            while (first < last)
+            int minRabbit = 0;
+            Dictionary<int, int> freq = new Dictionary<int, int>();
+            foreach (int i in n)
             {
-                long sum = n[first] + n[last];
-                if (sum <= upper)
+                if (freq.ContainsKey(i))
                 {
-                    countUpper += last - first;
-                    first++;
+                    freq[i]++;
                 }
                 else
                 {
-                    last--;
+                    freq[i] = 1;
                 }
             }
-            first = 0;
-            last = n.Length - 1;
-            while (first < last)
+            foreach (var num in freq)
             {
-                long sum = n[first] + n[last];
-                if (sum < lower)
-                {
-                    countLower += last - first;
-                    first++;
-                }
-                else
-                {
-                    last--;
-                }
+                int group = num.Key + 1;
+                minRabbit += (int)Math.Ceiling((1.0 * num.Value) / group) * group;
             }
-            return countUpper - countLower;
+            return minRabbit;
         }
     }
 }
