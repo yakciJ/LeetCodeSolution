@@ -1,36 +1,43 @@
 ﻿namespace LeetCodeSolution
 {
     using System;
-    using System.Collections.Generic;
 
     class Program
     {
-        // 20/4/2025
+        // 21/04/2025
         public static void Main()
         {
-            Console.WriteLine(Solution(new int[] { 0, 0, 1, 1, 1 }));
+            Console.WriteLine(Solution(new int[] { 1, -3, 4 }, 1, 6)); // Output: 2
+            Console.WriteLine(Solution(new int[] { 3, -4, 5, 1, -2 }, -4, 5)); // Output: 4
+            Console.WriteLine(Solution(new int[] { 4, -7, 2 }, 3, 6)); // Output: 0
+            Console.WriteLine(Solution(new int[] { 0, 0, 0 }, 1, 1)); // Output: 1
         }
-        public static int Solution(int[] n)
+        public static int Solution(int[] differences, int lower, int upper)
         {
-            int minRabbit = 0;
-            Dictionary<int, int> freq = new Dictionary<int, int>();
-            foreach (int i in n)
+            int count = 0;
+            long min = 0;
+            long max = 0;
+            long temp = 0;
+            for (int j = 0; j < differences.Length; j++)
             {
-                if (freq.ContainsKey(i))
+                temp += differences[j];
+                if (temp > max)
                 {
-                    freq[i]++;
+                    max = temp;
                 }
-                else
+                if (temp < min)
                 {
-                    freq[i] = 1;
+                    min = temp;
                 }
             }
-            foreach (var num in freq)
+            for (int i = lower; i <= upper; i++)
             {
-                int group = num.Key + 1;
-                minRabbit += (int)Math.Ceiling((1.0 * num.Value) / group) * group;
+                if (i + max <= upper && i + min >= lower)
+                {
+                    count++;
+                }
             }
-            return minRabbit;
+            return count;
         }
     }
 }
