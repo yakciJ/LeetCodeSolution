@@ -4,40 +4,48 @@
 
     class Program
     {
-        // 21/04/2025
+        // 22/04/2025
         public static void Main()
         {
-            Console.WriteLine(Solution(new int[] { 1, -3, 4 }, 1, 6)); // Output: 2
-            Console.WriteLine(Solution(new int[] { 3, -4, 5, 1, -2 }, -4, 5)); // Output: 4
-            Console.WriteLine(Solution(new int[] { 4, -7, 2 }, 3, 6)); // Output: 0
-            Console.WriteLine(Solution(new int[] { 0, 0, 0 }, 1, 1)); // Output: 1
+            Console.WriteLine(Solution(1, 3));  // 3
+            Console.WriteLine(Solution(2, 2));  // 3
+            Console.WriteLine(Solution(2, 3));  // 5
+            Console.WriteLine(Solution(3, 4));  // 13
+            Console.WriteLine(Solution(4, 2));  // 5
+            Console.WriteLine(Solution(5, 3));  // 11
+            Console.WriteLine(Solution(6, 3));  // 13
         }
-        public static int Solution(int[] differences, int lower, int upper)
+        public static int Solution(int length, int maxValue)
         {
-            int count = 0;
-            long min = 0;
-            long max = 0;
-            long temp = 0;
-            for (int j = 0; j < differences.Length; j++)
+            const int MOD = 1000000007;
+            int[,] dp = new int[length + 1, maxValue + 1];
+            for (int i = 1; i <= maxValue; i++)
             {
-                temp += differences[j];
-                if (temp > max)
+                dp[1, i] = 1;
+            }
+            for (int i = 2; i <= length; i++)
+            {
+                for (int j = 1; j <= maxValue; j++)
                 {
-                    max = temp;
-                }
-                if (temp < min)
-                {
-                    min = temp;
+                    for (int k = 1; k * k <= j; k++)
+                    {
+                        if (j % k == 0)
+                        {
+                            dp[i, j] = (dp[i, j] + dp[i - 1, k]) % MOD;
+                            if (k != j / k)
+                            {
+                                dp[i, j] = (dp[i, j] + dp[i - 1, j / k]) % MOD;
+                            }
+                        }
+                    }
                 }
             }
-            for (int i = lower; i <= upper; i++)
+            long result = 0;
+            for (int j = 1; j <= maxValue; j++)
             {
-                if (i + max <= upper && i + min >= lower)
-                {
-                    count++;
-                }
+                result = (result + dp[length, j]) % MOD;
             }
-            return count;
+            return (int)result;
         }
     }
 }
