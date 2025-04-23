@@ -4,48 +4,48 @@
 
     class Program
     {
-        // 22/04/2025
+        // 23/04/2025
         public static void Main()
         {
-            Console.WriteLine(Solution(1, 3));  // 3
-            Console.WriteLine(Solution(2, 2));  // 3
-            Console.WriteLine(Solution(2, 3));  // 5
-            Console.WriteLine(Solution(3, 4));  // 13
-            Console.WriteLine(Solution(4, 2));  // 5
-            Console.WriteLine(Solution(5, 3));  // 11
-            Console.WriteLine(Solution(6, 3));  // 13
+            Console.WriteLine(Solution(2));  // 3
         }
-        public static int Solution(int length, int maxValue)
+        public static int Solution(int n)
         {
-            const int MOD = 1000000007;
-            int[,] dp = new int[length + 1, maxValue + 1];
-            for (int i = 1; i <= maxValue; i++)
+            Dictionary<int, int> freq = new Dictionary<int, int>();
+            for (int i = 1; i <= n; i++)
             {
-                dp[1, i] = 1;
-            }
-            for (int i = 2; i <= length; i++)
-            {
-                for (int j = 1; j <= maxValue; j++)
+                int sum = 0;
+                int x = i;
+                while (x > 0)
                 {
-                    for (int k = 1; k * k <= j; k++)
-                    {
-                        if (j % k == 0)
-                        {
-                            dp[i, j] = (dp[i, j] + dp[i - 1, k]) % MOD;
-                            if (k != j / k)
-                            {
-                                dp[i, j] = (dp[i, j] + dp[i - 1, j / k]) % MOD;
-                            }
-                        }
-                    }
+                    sum += x % 10;
+                    x /= 10;
+                }
+                if (freq.ContainsKey(sum))
+                {
+                    freq[sum]++;
+                }
+                else
+                {
+                    freq[sum] = 1;
                 }
             }
-            long result = 0;
-            for (int j = 1; j <= maxValue; j++)
+            int max = 0;
+            int count = 0;
+            foreach (var key in freq)
             {
-                result = (result + dp[length, j]) % MOD;
+                Console.WriteLine($"{key}");
+                if (max < key.Value)
+                {
+                    max = key.Value;
+                    count = 1;
+                }
+                else if (max == key.Value)
+                {
+                    count++;
+                }
             }
-            return (int)result;
+            return count;
         }
     }
 }
