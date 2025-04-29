@@ -1,41 +1,37 @@
 ﻿namespace LeetCodeSolution
 {
     using System;
+    using System.Linq;
 
     class Program
     {
-        // 28/04/2025 | 2302. Count Subarrays With Score Less Than K
+        // 29/04/2025 | 2962. Count Subarrays Where Max Element Appears at Least K Times
         public static void Main()
         {
-            Console.WriteLine(Solution(new int[] { 2, 1, 4, 3, 5 }, 25));
+            Console.WriteLine(Solution(new int[] { 1, 3, 2, 3, 3 }, 2));
         }
         public static long Solution(int[] nums, long k)
         {
             long count = 0;
-            long sum = 0;
-            long length = 0;
-            long overflow = 0;
-            long left = 0;
+            int max = nums.Max();
+            long numberOfMax = 0;
+            int left = 0;
             for (int i = 0; i < nums.Length; i++)
             {
-                sum += nums[i];
-                length++;
-                if (sum * length >= k)
+                if (nums[i] == max)
                 {
-                    count += (length - 1) * (length - 1 + 1) / 2;
-                    count -= (overflow) * (overflow + 1) / 2;
-                    overflow = length - 1;
+                    numberOfMax++;
                 }
-                while (sum * length >= k)
+                while (numberOfMax == k)
                 {
-                    sum -= nums[left];
+                    count += nums.Length - i;
+                    if (nums[left] == max)
+                    {
+                        numberOfMax--;
+                    }
                     left++;
-                    length--;
-                    overflow--;
                 }
             }
-            count += (length) * (length + 1) / 2;
-            count -= (overflow) * (overflow + 1) / 2;
             return count;
         }
     }
