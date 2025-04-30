@@ -1,35 +1,29 @@
 ﻿namespace LeetCodeSolution
 {
     using System;
-    using System.Linq;
 
     class Program
     {
-        // 29/04/2025 | 2962. Count Subarrays Where Max Element Appears at Least K Times
+        // 30/04/2025 | 1295. Find Numbers with Even Number of Digits
         public static void Main()
         {
-            Console.WriteLine(Solution(new int[] { 1, 3, 2, 3, 3 }, 2));
+            Console.WriteLine(Solution(new int[] { 12, 345, 2, 6, 7896 }));
         }
-        public static long Solution(int[] nums, long k)
+        public static int Solution(int[] nums)
         {
-            long count = 0;
-            int max = nums.Max();
-            long numberOfMax = 0;
-            int left = 0;
+            int count = 0;
             for (int i = 0; i < nums.Length; i++)
             {
-                if (nums[i] == max)
+                int n = nums[i];
+                int x = 0;
+                while (n > 0)
                 {
-                    numberOfMax++;
+                    n = n / 10;
+                    x++;
                 }
-                while (numberOfMax == k)
+                if (x % 2 == 0)
                 {
-                    count += nums.Length - i;
-                    if (nums[left] == max)
-                    {
-                        numberOfMax--;
-                    }
-                    left++;
+                    count++;
                 }
             }
             return count;
