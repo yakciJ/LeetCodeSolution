@@ -4,92 +4,103 @@
 
     class Program
     {
-        // 01/05/2025 | 2071. Maximum Number of Tasks You Can Assign
+        // 02/05/2025 | 838. Push Dominoes  
         public static void Main()
         {
-            Console.WriteLine(Solution(new int[] { 5, 9, 8, 5, 9 }, new int[] { 1, 6, 4, 2, 6 }, 1, 5));
+            //string dominoes = "..R...L..";
+            //char[] dominoArray = dominoes.ToCharArray();
+            //Console.WriteLine(Fall(dominoArray, 2, 6, 'B'));
+            Console.WriteLine(Solution(".L.R...LR..L.."));
         }
-        public static int Solution(int[] tasks, int[] workers, int pills, int strength)
+
+        public static string Solution(string dominoes)
         {
-            // sort 2 mang, chay 1 vong for, neu worker < task thi thu + pill, neu van k thoa man thi tang worker len cho den khi thoa man, sau do tang ca 2.
-            //int count = 0;
-            //Array.Sort(tasks);
-            //Array.Sort(workers);
-            //Array.Reverse(workers);
-            //Array.Reverse(tasks);
-            //int task = 0;
-            //int worker = 0;
-            //int weakestWorker = workers.Length - 1;
-            //Console.WriteLine(string.Join(", ", tasks));
-            //Console.WriteLine(string.Join(", ", workers));
-            //while (task < tasks.Length && worker <= weakestWorker)
-            //{
-            //    if (tasks[task] <= workers[worker])
-            //    {
-            //        Console.WriteLine(workers[worker] + " " + tasks[task]);
-            //        count++;
-            //        task++;
-            //        worker++;
-            //    }
-            //    else if (tasks[task] <= workers[weakestWorker] + strength && pills > 0)
-            //    {
-            //        Console.WriteLine("Pill: " + workers[weakestWorker] + " " + tasks[task]);
-            //        count++;
-            //        weakestWorker--;
-            //        task++;
-            //        pills--;
-            //    }
-            //    else
-            //    {
-            //        task++;
-            //    }
-            //}
-            //return count;
-            Array.Sort(tasks);
-            Array.Sort(workers);
+            int dot = 0;
+            int pos = 0;
+            char[] dominoArray = dominoes.ToCharArray();
+            char now = dominoArray[0];
 
-            int left = 0, right = Math.Min(tasks.Length, workers.Length);
-
-            while (left < right)
+            for (int i = 1; i < dominoArray.Length; i++)
             {
-                int mid = (left + right + 1) / 2;
-                if (CanAssign(tasks, workers, pills, strength, mid))
+                if (dominoArray[i] == '.')
                 {
-                    left = mid;
+                    dot++;
+                    continue;
+                }
+                if (dominoArray[i] == 'L' && now == '.')
+                {
+                    dominoArray = Fall(dominoArray, -1, i, 'L');
+                    now = dominoArray[i];
+                    pos = i;
+                    dot = 0;
+                    continue;
+                }
+                if (dominoArray[i] == now && dot > 0)
+                {
+                    dominoArray = Fall(dominoArray, pos, i, dominoArray[i]);
+                    pos = i;
+                    dot = 0;
+                    now = dominoArray[i];
+                }
+                else if (dominoArray[i] == 'L' && now == 'R' && dot > 1)
+                {
+                    dominoArray = Fall(dominoArray, pos, i, 'B');
+                    pos = i;
+                    dot = 0;
+                    now = dominoArray[i];
                 }
                 else
                 {
-                    right = mid - 1;
+                    now = dominoArray[i];
+                    dot = 0;
+                    pos = i;
                 }
             }
-
-            return left;
+            if (now == 'R')
+            {
+                dominoArray = Fall(dominoArray, pos, dominoArray.Length, now);
+            }
+            return new string(dominoArray);
         }
 
-        private static bool CanAssign(int[] tasks, int[] workers, int pills, int strength, int count)
+        public static char[] Fall(char[] dominoArray, int first, int last, char direction)
         {
-            LinkedList<int> availableWorkers = new LinkedList<int>(workers.TakeLast(count));
-            int remainingPills = pills;
-
-            for (int i = count - 1; i >= 0; i--)
+            if (direction == 'L' || direction == 'R')
             {
-                int task = tasks[i];
-                if (availableWorkers.Last.Value >= task)
+                for (int i = first + 1; i < last; i++)
                 {
-                    availableWorkers.RemoveLast();
+                    dominoArray[i] = direction;
                 }
-                else if (remainingPills > 0 && availableWorkers.First.Value + strength >= task)
+            }
+            else
+            {
+                if ((last - first - 1) % 2 == 0)
                 {
-                    availableWorkers.RemoveFirst();
-                    remainingPills--;
+                    int mid = first + (last - first) / 2;
+                    for (int i = first + 1; i < last; i++)
+                    {
+                        if (i <= mid)
+                        {
+                            dominoArray[i] = 'R';
+                        }
+                        else dominoArray[i] = 'L';
+                    }
                 }
                 else
                 {
-                    return false;
+                    int mid = first + (last - first) / 2;
+                    for (int i = first + 1; i < last; i++)
+                    {
+                        if (i == mid) continue;
+                        if (i < mid)
+                        {
+                            dominoArray[i] = 'R';
+                        }
+                        else dominoArray[i] = 'L';
+                    }
                 }
             }
-
-            return true;
+            return dominoArray;
         }
     }
 }
