@@ -4,103 +4,51 @@
 
     class Program
     {
-        // 02/05/2025 | 838. Push Dominoes  
+        // 03/05/2025 | 1007. Minimum Domino Rotations For Equal Row
         public static void Main()
         {
-            //string dominoes = "..R...L..";
-            //char[] dominoArray = dominoes.ToCharArray();
-            //Console.WriteLine(Fall(dominoArray, 2, 6, 'B'));
-            Console.WriteLine(Solution(".L.R...LR..L.."));
+            Console.WriteLine(Solution(
+                new int[] { 2, 1, 2, 4, 2, 2 },
+                new int[] { 5, 2, 6, 2, 3, 2 }
+            )); // Expected: 2
+
+            //Console.WriteLine(Solution(
+            //    new int[] { 3, 5, 1, 2, 3 },
+            //    new int[] { 3, 6, 3, 3, 4 }
+            //)); // Expected: -1
+
+            //Console.WriteLine(Solution(
+            //    new int[] { 1, 1, 1, 1 },
+            //    new int[] { 2, 2, 2, 2 }
+            //)); // Expected: 0 
         }
 
-        public static string Solution(string dominoes)
+        public static int Solution(int[] tops, int[] bottoms)
         {
-            int dot = 0;
-            int pos = 0;
-            char[] dominoArray = dominoes.ToCharArray();
-            char now = dominoArray[0];
-
-            for (int i = 1; i < dominoArray.Length; i++)
+            int Check(int x)
             {
-                if (dominoArray[i] == '.')
+                int topCount = 0;
+                int bottomCount = 0;
+                for (int i = 0; i < bottoms.Length; i++)
                 {
-                    dot++;
-                    continue;
-                }
-                if (dominoArray[i] == 'L' && now == '.')
-                {
-                    dominoArray = Fall(dominoArray, -1, i, 'L');
-                    now = dominoArray[i];
-                    pos = i;
-                    dot = 0;
-                    continue;
-                }
-                if (dominoArray[i] == now && dot > 0)
-                {
-                    dominoArray = Fall(dominoArray, pos, i, dominoArray[i]);
-                    pos = i;
-                    dot = 0;
-                    now = dominoArray[i];
-                }
-                else if (dominoArray[i] == 'L' && now == 'R' && dot > 1)
-                {
-                    dominoArray = Fall(dominoArray, pos, i, 'B');
-                    pos = i;
-                    dot = 0;
-                    now = dominoArray[i];
-                }
-                else
-                {
-                    now = dominoArray[i];
-                    dot = 0;
-                    pos = i;
-                }
-            }
-            if (now == 'R')
-            {
-                dominoArray = Fall(dominoArray, pos, dominoArray.Length, now);
-            }
-            return new string(dominoArray);
-        }
-
-        public static char[] Fall(char[] dominoArray, int first, int last, char direction)
-        {
-            if (direction == 'L' || direction == 'R')
-            {
-                for (int i = first + 1; i < last; i++)
-                {
-                    dominoArray[i] = direction;
-                }
-            }
-            else
-            {
-                if ((last - first - 1) % 2 == 0)
-                {
-                    int mid = first + (last - first) / 2;
-                    for (int i = first + 1; i < last; i++)
+                    if (tops[i] != x && bottoms[i] != x)
                     {
-                        if (i <= mid)
-                        {
-                            dominoArray[i] = 'R';
-                        }
-                        else dominoArray[i] = 'L';
+                        return -1;
+                    }
+                    else if (tops[i] != x)
+                    {
+                        topCount++;
+                    }
+                    else if (bottoms[i] != x)
+                    {
+                        bottomCount++;
                     }
                 }
-                else
-                {
-                    int mid = first + (last - first) / 2;
-                    for (int i = first + 1; i < last; i++)
-                    {
-                        if (i == mid) continue;
-                        if (i < mid)
-                        {
-                            dominoArray[i] = 'R';
-                        }
-                        else dominoArray[i] = 'L';
-                    }
-                }
+                return Math.Min(topCount, bottomCount);
             }
-            return dominoArray;
+            int count = Check(tops[0]);
+            if (count > 0) return count;
+            return Check(bottoms[0]);
         }
     }
 }
