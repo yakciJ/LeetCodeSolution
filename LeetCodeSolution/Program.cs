@@ -4,51 +4,46 @@
 
     class Program
     {
-        // 03/05/2025 | 1007. Minimum Domino Rotations For Equal Row
+        // 04/05/2025 | 1128. Number of Equivalent Domino Pairs
         public static void Main()
         {
-            Console.WriteLine(Solution(
-                new int[] { 2, 1, 2, 4, 2, 2 },
-                new int[] { 5, 2, 6, 2, 3, 2 }
-            )); // Expected: 2
+            int[][] dominoes = new int[][]
+        {
+            new int[] {1, 2},
+            new int[] {2, 1},
+            new int[] {3, 4},
+            new int[] {5, 6}
+        };
 
-            //Console.WriteLine(Solution(
-            //    new int[] { 3, 5, 1, 2, 3 },
-            //    new int[] { 3, 6, 3, 3, 4 }
-            //)); // Expected: -1
-
-            //Console.WriteLine(Solution(
-            //    new int[] { 1, 1, 1, 1 },
-            //    new int[] { 2, 2, 2, 2 }
-            //)); // Expected: 0 
+            Console.WriteLine(Solution(dominoes)); // Expected: 1
         }
 
-        public static int Solution(int[] tops, int[] bottoms)
+        public static int Solution(int[][] dominoes)
         {
-            int Check(int x)
+            int count = 0;
+            Dictionary<(int, int), int> keyValuePairs = new Dictionary<(int, int), int>();
+            for (int i = 0; i < dominoes.Length; i++)
             {
-                int topCount = 0;
-                int bottomCount = 0;
-                for (int i = 0; i < bottoms.Length; i++)
+                int a = dominoes[i][0];
+                int b = dominoes[i][1];
+                var multiply = (Math.Max(a,b), Math.Min(a,b));
+                if (keyValuePairs.ContainsKey(multiply))
                 {
-                    if (tops[i] != x && bottoms[i] != x)
-                    {
-                        return -1;
-                    }
-                    else if (tops[i] != x)
-                    {
-                        topCount++;
-                    }
-                    else if (bottoms[i] != x)
-                    {
-                        bottomCount++;
-                    }
+                    keyValuePairs[multiply]++;
                 }
-                return Math.Min(topCount, bottomCount);
+                else
+                {
+                    keyValuePairs[multiply] = 1;
+                }
             }
-            int count = Check(tops[0]);
-            if (count > 0) return count;
-            return Check(bottoms[0]);
+            foreach (var value in keyValuePairs.Values)
+            {
+                if (value >= 2)
+                {
+                    count += value * (value - 1) / 2;
+                }
+            }
+            return count;
         }
     }
 }
