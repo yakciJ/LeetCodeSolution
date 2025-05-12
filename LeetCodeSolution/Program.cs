@@ -1,49 +1,48 @@
 ﻿namespace LeetCodeSolution
 {
-    using System;
-
     class Program
     {
-        // 04/05/2025 | 1128. Number of Equivalent Domino Pairs
+        // 12/05/2025 | 1128. Number of Equivalent Domino Pairs
         public static void Main()
         {
-            int[][] dominoes = new int[][]
-        {
-            new int[] {1, 2},
-            new int[] {2, 1},
-            new int[] {3, 4},
-            new int[] {5, 6}
-        };
-
-            Console.WriteLine(Solution(dominoes)); // Expected: 1
+            int[] digits = { 2, 1, 3, 0 };
+            int[] result = Solution(digits);
+            Console.WriteLine(string.Join(", ", result));
         }
 
-        public static int Solution(int[][] dominoes)
+        public static int[] Solution(int[] digits)
         {
-            int count = 0;
-            Dictionary<(int, int), int> keyValuePairs = new Dictionary<(int, int), int>();
-            for (int i = 0; i < dominoes.Length; i++)
+            List<int> arr = new List<int>();
+            Dictionary<int, int> numbers = new Dictionary<int, int>();
+            for (int i = 0; i < digits.Length; i++)
             {
-                int a = dominoes[i][0];
-                int b = dominoes[i][1];
-                var multiply = (Math.Max(a,b), Math.Min(a,b));
-                if (keyValuePairs.ContainsKey(multiply))
+                if (numbers.ContainsKey(digits[i]))
                 {
-                    keyValuePairs[multiply]++;
+                    numbers[digits[i]]++;
                 }
-                else
+                else numbers[digits[i]] = 1;
+            }
+            foreach (int key in numbers.Keys)
+            {
+                Dictionary<int, int> units = new Dictionary<int, int>(numbers);
+                if (key % 2 != 0) continue;
+                units[key]--;
+                if (units[key] == 0) units.Remove(key);
+                foreach (int hundred in units.Keys)
                 {
-                    keyValuePairs[multiply] = 1;
+                    Dictionary<int, int> hundreds = new Dictionary<int, int>(units);
+                    if (hundred == 0) continue;
+                    hundreds[hundred]--;
+                    if (hundreds[hundred] == 0) hundreds.Remove(hundred);
+                    foreach (int ten in hundreds.Keys)
+                    {
+                        int sum = hundred * 100 + ten * 10 + key;
+                        arr.Add(sum);
+                    }
                 }
             }
-            foreach (var value in keyValuePairs.Values)
-            {
-                if (value >= 2)
-                {
-                    count += value * (value - 1) / 2;
-                }
-            }
-            return count;
+            arr.Sort();
+            return arr.ToArray();
         }
     }
 }
