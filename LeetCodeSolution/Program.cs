@@ -2,47 +2,26 @@
 {
     class Program
     {
-        // 12/05/2025 | 1128. Number of Equivalent Domino Pairs
+        // 11/05/2025 | 1550. Three Consecutive Odds
         public static void Main()
         {
-            int[] digits = { 2, 1, 3, 0 };
-            int[] result = Solution(digits);
-            Console.WriteLine(string.Join(", ", result));
+            int[] digits = { 2, 6, 4, 1 };
+            Console.WriteLine(Solution(digits));
         }
 
-        public static int[] Solution(int[] digits)
+        public static bool Solution(int[] arr)
         {
-            List<int> arr = new List<int>();
-            Dictionary<int, int> numbers = new Dictionary<int, int>();
-            for (int i = 0; i < digits.Length; i++)
+            int count = 0;
+            for (int i = 0; i < arr.Length; i++)
             {
-                if (numbers.ContainsKey(digits[i]))
+                if (arr[i] % 2 != 0)
                 {
-                    numbers[digits[i]]++;
+                    count++;
                 }
-                else numbers[digits[i]] = 1;
+                else count = 0;
+                if (count == 3) return true;
             }
-            foreach (int key in numbers.Keys)
-            {
-                Dictionary<int, int> units = new Dictionary<int, int>(numbers);
-                if (key % 2 != 0) continue;
-                units[key]--;
-                if (units[key] == 0) units.Remove(key);
-                foreach (int hundred in units.Keys)
-                {
-                    Dictionary<int, int> hundreds = new Dictionary<int, int>(units);
-                    if (hundred == 0) continue;
-                    hundreds[hundred]--;
-                    if (hundreds[hundred] == 0) hundreds.Remove(hundred);
-                    foreach (int ten in hundreds.Keys)
-                    {
-                        int sum = hundred * 100 + ten * 10 + key;
-                        arr.Add(sum);
-                    }
-                }
-            }
-            arr.Sort();
-            return arr.ToArray();
+            return false;
         }
     }
 }
