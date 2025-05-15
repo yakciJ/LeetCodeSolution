@@ -2,26 +2,27 @@
 {
     class Program
     {
-        // 11/05/2025 | 1550. Three Consecutive Odds
+        // 15/05/2025 | 2900. Longest Unequal Adjacent Groups Subsequence I
         public static void Main()
         {
-            int[] digits = { 2, 6, 4, 1 };
-            Console.WriteLine(Solution(digits));
+            Console.WriteLine(Solution(["e", "a", "b"], [0, 0, 1]));
         }
 
-        public static bool Solution(int[] arr)
+        public static IList<string> Solution(string[] words, int[] groups)
         {
-            int count = 0;
-            for (int i = 0; i < arr.Length; i++)
+            IList<string> arr = new List<string>();
+            int a = groups[0];
+            arr.Add(words[0]);
+            for (int i = 0; i < words.Length; i++)
             {
-                if (arr[i] % 2 != 0)
+                if (groups[i] != a)
                 {
-                    count++;
+                    arr.Add(words[i]);
+                    a = groups[i] == 0 ? 0 : 1;
                 }
-                else count = 0;
-                if (count == 3) return true;
             }
-            return false;
+            
+            return arr;
         }
     }
 }
