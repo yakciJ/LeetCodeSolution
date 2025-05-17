@@ -2,27 +2,29 @@
 {
     class Program
     {
-        // 15/05/2025 | 2900. Longest Unequal Adjacent Groups Subsequence I
+        // 16/05/2025 | 75. Sort Colors
         public static void Main()
         {
-            Console.WriteLine(Solution(["e", "a", "b"], [0, 0, 1]));
+            //Console.WriteLine(Solution([0, 0, 1]));
         }
 
-        public static IList<string> Solution(string[] words, int[] groups)
+        public static void Solution(int[] nums)
         {
-            IList<string> arr = new List<string>();
-            int a = groups[0];
-            arr.Add(words[0]);
-            for (int i = 0; i < words.Length; i++)
+            bool sort = true;
+            while (sort)
             {
-                if (groups[i] != a)
+                sort = false;
+                for(int i = 0; i < nums.Length - 1; i++)
                 {
-                    arr.Add(words[i]);
-                    a = groups[i] == 0 ? 0 : 1;
+                    if (nums[i] > nums[i + 1])
+                    {
+                        int temp = nums[i];
+                        nums[i] = nums[i + 1];
+                        nums[i + 1] = temp;
+                        sort = true;
+                    }
                 }
             }
-            
-            return arr;
         }
     }
 }
