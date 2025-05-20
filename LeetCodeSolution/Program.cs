@@ -2,38 +2,42 @@
 {
     class Program
     {
-        // 19/05/2025 | 3024. Type of Triangle
+        // 20/05/2025 | 3355. Zero Array Transformation I
         public static void Main()
         {
-            Console.WriteLine(Solution([3, 3, 3]));
+            Console.WriteLine(Solution([4, 3, 2, 1], [[1, 3], [0, 2]]));
         }
 
-        public static string Solution(int[] nums)
+        public static bool Solution(int[] nums, int[][] queries)
         {
-            bool sort = true;
-            while (sort)
+            // Cach moi, tao mang moi, den doan trong mang thi -1, ra khoi mang thi +1, sau do dung prefix sum de tinh so lan +- gi do de + vao nums.
+            int[] diffs = new int[nums.Length + 1];
+            int diff = 0;
+            for (int i = 0; i < queries.Length; i++)
             {
-                sort = false;
-                for (int i = 0; i < nums.Length - 1; i++)
-                {
-                    if (nums[i] > nums[i + 1])
-                    {
-                        int temp = nums[i];
-                        nums[i] = nums[i + 1];
-                        nums[i + 1] = temp;
-                        sort = true;
-                    }
-                }
+                diffs[queries[i][0]]--;
+                diffs[queries[i][1] + 1]++;
             }
-            string[] types = { "equilateral", "isosceles", "scalene", "none" };
-            //Array.Sort(nums);
-            if (nums[2] < nums[0] + nums[1])
+            for (int i = 0; i < nums.Length; i++)
             {
-                if (nums[2] == nums[0]) return types[0];
-                if (nums[0] == nums[1] || nums[1] == nums[2]) return types[1];
-                return types[2];
+                diff += diffs[i];
+                nums[i] += diff;
+                if (nums[i] > 0) return false;
             }
-            return types[3];
+            return true;
+            //Cach cu, TLE.
+            //for (int i = 0; i < queries.Length; i++)
+            //{
+            //    for (int j = queries[i][0]; j <= queries[i][1]; j++)
+            //    {
+            //        if (nums[j] > 0) nums[j]--;
+            //    }
+            //}
+            //for (int i = 0; i < nums.Length; i++)
+            //{
+            //    if (nums[i] != 0) return false;
+            //}
+            //return true;
         }
     }
 }
