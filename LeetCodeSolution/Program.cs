@@ -2,42 +2,48 @@
 {
     class Program
     {
-        // 20/05/2025 | 3355. Zero Array Transformation I
+        // 21/05/2025 | 73. Set Matrix Zeroes
         public static void Main()
         {
-            Console.WriteLine(Solution([4, 3, 2, 1], [[1, 3], [0, 2]]));
+            Solution([[1, 1, 1], [1, 0, 1], [1, 1, 1]]);
         }
 
-        public static bool Solution(int[] nums, int[][] queries)
+        public static void Solution(int[][] matrix)
         {
-            // Cach moi, tao mang moi, den doan trong mang thi -1, ra khoi mang thi +1, sau do dung prefix sum de tinh so lan +- gi do de + vao nums.
-            int[] diffs = new int[nums.Length + 1];
-            int diff = 0;
-            for (int i = 0; i < queries.Length; i++)
+            HashSet<int> rows = new HashSet<int>();
+            HashSet<int> columns = new HashSet<int>();
+            for (int i = 0; i < matrix.Length; i++)
             {
-                diffs[queries[i][0]]--;
-                diffs[queries[i][1] + 1]++;
+                for (int j = 0; j < matrix[0].Length; j++)
+                {
+                    if (matrix[i][j] == 0)
+                    {
+                        if (!rows.Contains(i))
+                        {
+                            rows.Add(i);
+                        }
+                        if (!columns.Contains(j))
+                        {
+                            columns.Add(j);
+                        }
+                        columns.Add(j);
+                    }
+                    else if (rows.Contains(i) || columns.Contains(j))
+                    {
+                        matrix[i][j] = 0;
+                    }
+                }
             }
-            for (int i = 0; i < nums.Length; i++)
+            for(int i = 0; i < matrix.Length; i++)
             {
-                diff += diffs[i];
-                nums[i] += diff;
-                if (nums[i] > 0) return false;
+                for(int j = 0; j < matrix[0].Length; j++)
+                {
+                    if(rows.Contains(i) || columns.Contains(j))
+                    {
+                        matrix[i][j] = 0;
+                    }
+                }
             }
-            return true;
-            //Cach cu, TLE.
-            //for (int i = 0; i < queries.Length; i++)
-            //{
-            //    for (int j = queries[i][0]; j <= queries[i][1]; j++)
-            //    {
-            //        if (nums[j] > 0) nums[j]--;
-            //    }
-            //}
-            //for (int i = 0; i < nums.Length; i++)
-            //{
-            //    if (nums[i] != 0) return false;
-            //}
-            //return true;
         }
     }
 }
