@@ -2,37 +2,36 @@
 {
     class Program
     {
-        // 21/05/2025 | 73. Set Matrix Zeroes
+        // 24/05/2025 | 2942. Find Words Containing Character
         public static void Main()
         {
-            Solution([[1, 2, 3, 4], [5, 0, 7, 8], [0, 10, 11, 12], [13, 14, 15, 0]]);
+            Console.WriteLine(Solution(["leet", "code"], 'e'));
         }
 
-        public static void Solution(int[][] matrix)
+        public static IList<int> Solution(string[] words, char x)
         {
-            int[] rows = new int[matrix.Length];
-            int[] columns = new int[matrix[0].Length];
-            for (int i = 0; i < matrix.Length; i++)
+            List<int> ints = new List<int>();
+            //bool checkWord(string word)
+            //{
+            //    foreach (char chr in word)
+            //    {
+            //        if (chr == x)
+            //        {
+            //            return true;
+            //        }
+            //    }
+            //    return false;
+            //}
+            for (int i = 0; i < words.Length; i++)
             {
-                for (int j = 0; j < matrix[0].Length; j++)
                 {
-                    if (matrix[i][j] == 0)
+                    if (words[i].Contains(x))
                     {
-                        rows[i] = 1;
-                        columns[j] = 1;
+                        ints.Add(i);
                     }
                 }
             }
-            for (int i = 0; i < matrix.Length; i++)
-            {
-                for (int j = 0; j < matrix[0].Length; j++)
-                {
-                    if (rows[i] == 1 || columns[j] == 1)
-                    {
-                        matrix[i][j] = 0;
-                    }
-                }
-            }
+            return ints;
         }
     }
 }
