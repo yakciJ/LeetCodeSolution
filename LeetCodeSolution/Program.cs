@@ -2,24 +2,28 @@
 {
     class Program
     {
-        // 27/05/2025 | 2894. Divisible and Non-divisible Sums Difference
+        // 16/6/2025 | 2016. Maximum Difference Between Increasing Elements
         public static void Main()
         {
-            Console.WriteLine(Solution(10, 3));
+            Console.WriteLine(Solution([7, 1, 5, 4]));
         }
 
-        public static int Solution(int n, int m)
+        public static int Solution(int[] nums)
         {
-            int num1 = 0, num2 = 0;
-            for (int i = 1; i <= n; i++)
+            int diff = -1;
+            int min = nums[0];
+            for (int i = 0; i < nums.Length; i++)
             {
-                if (i % m == 0)
+                if (nums[i] < min)
                 {
-                    num2 += i;
+                    min = nums[i];
                 }
-                else num1 += i;
+                if (nums[i] != min)
+                {
+                    diff = Math.Max(diff, nums[i] - min);
+                }
             }
-            return num1 - num2;
+            return diff;
         }
     }
 }
