@@ -2,28 +2,49 @@
 {
     class Program
     {
-        // 19/6/2025 | 2294. Partition Array Such That Maximum Difference Is K
+        // 20/6/2025 | 2294. Partition Array Such That Maximum Difference Is K
         public static void Main()
         {
-            Console.WriteLine(Solution([3, 6, 1, 2, 5], 2));
+            Console.WriteLine(Solution("NWSE", 1));
         }
 
-        public static int Solution(int[] nums, int k)
+        public static int Solution(string s, int k)
         {
-            // giong bai hom qua vl, con de hon
-            int count = 0;
-            Array.Sort(nums);
-            int min = nums[0];
-            for(int i = 0; i < nums.Length; i++)
+            int farthest = 0;
+            char[][] arr = new char[4][];
+            arr[0] = new char[] { 'N', 'E' };
+            arr[1] = new char[] { 'N', 'W' };
+            arr[2] = new char[] { 'S', 'E' };
+            arr[3] = new char[] { 'S', 'W' };
+
+            for (int i = 0; i < 4; i++)
             {
-                if (nums[i] - min > k)
+                int temp = 0;
+                int maxTemp = 0;
+                int tempK = k;
+                for (int j = 0; j < s.Length; j++)
                 {
-                    min = nums[i];
-                    count++;
+                    if (s[j] == arr[i][0] || s[j] == arr[i][1])
+                    {
+                        temp++;
+                    }
+                    else
+                    {
+                        if (tempK > 0)
+                        {
+                            temp++;
+                            tempK--;
+                        }
+                        else
+                        {
+                            temp--;
+                        }
+                    }
+                    if (temp > maxTemp) maxTemp = temp;
                 }
+                if (farthest < maxTemp) farthest = maxTemp;
             }
-            count++;
-            return count;
+            return farthest;
         }
     }
 }
