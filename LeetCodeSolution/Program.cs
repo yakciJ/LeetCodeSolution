@@ -2,49 +2,39 @@
 {
     class Program
     {
-        // 20/6/2025 | 2294. Partition Array Such That Maximum Difference Is K
+        // 21/6/2025 | 3085. Minimum Deletions to Make String K-Special
+
         public static void Main()
         {
-            Console.WriteLine(Solution("NWSE", 1));
+            Console.WriteLine(Solution("aabcaba", 0));
         }
 
-        public static int Solution(string s, int k)
+        public static int Solution(string word, int k)
         {
-            int farthest = 0;
-            char[][] arr = new char[4][];
-            arr[0] = new char[] { 'N', 'E' };
-            arr[1] = new char[] { 'N', 'W' };
-            arr[2] = new char[] { 'S', 'E' };
-            arr[3] = new char[] { 'S', 'W' };
-
-            for (int i = 0; i < 4; i++)
+            int steps = int.MaxValue;
+            int[] chars = new int[26];
+            for (int i = 0; i < word.Length; i++)
             {
-                int temp = 0;
-                int maxTemp = 0;
-                int tempK = k;
-                for (int j = 0; j < s.Length; j++)
-                {
-                    if (s[j] == arr[i][0] || s[j] == arr[i][1])
-                    {
-                        temp++;
-                    }
-                    else
-                    {
-                        if (tempK > 0)
-                        {
-                            temp++;
-                            tempK--;
-                        }
-                        else
-                        {
-                            temp--;
-                        }
-                    }
-                    if (temp > maxTemp) maxTemp = temp;
-                }
-                if (farthest < maxTemp) farthest = maxTemp;
+                chars[word[i] - 'a']++;
             }
-            return farthest;
+            var nonZero = chars.Where(x => x > 0).ToArray();
+            foreach (var freq in nonZero)
+            {
+                int tempSteps = 0;
+                foreach (var x in nonZero)
+                {
+                    if (x > freq + k)
+                    {
+                        tempSteps += x - (freq + k);
+                    }
+                    else if (x < freq - k)
+                    {
+                        tempSteps += x;
+                    }
+                }
+                if (tempSteps < steps) steps = tempSteps;
+            }
+            return steps;
         }
     }
 }
