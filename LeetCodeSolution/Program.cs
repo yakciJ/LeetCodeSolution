@@ -6,35 +6,37 @@
 
         public static void Main()
         {
-            Console.WriteLine(Solution("aabcaba", 0));
+            Console.WriteLine(Solution("ctoyjrwtngqwt", 8, 'n'));
         }
 
-        public static int Solution(string word, int k)
+        public static string[] Solution(string s, int k, char fill)
         {
-            int steps = int.MaxValue;
-            int[] chars = new int[26];
-            for (int i = 0; i < word.Length; i++)
+            int length = (int)Math.Ceiling((double)s.Length / k);
+            string[] arr = new string[length];
+            int x = 0;
+            string temp = string.Empty;
+            int y = 0;
+            for (int i = 0; i < s.Length; i++)
             {
-                chars[word[i] - 'a']++;
-            }
-            var nonZero = chars.Where(x => x > 0).ToArray();
-            foreach (var freq in nonZero)
-            {
-                int tempSteps = 0;
-                foreach (var x in nonZero)
+                temp += s[i];
+                x++;
+                if (x == k || i == s.Length - 1)
                 {
-                    if (x > freq + k)
-                    {
-                        tempSteps += x - (freq + k);
-                    }
-                    else if (x < freq - k)
-                    {
-                        tempSteps += x;
-                    }
+                    x = 0;
+                    arr[y] = temp;
+                    temp = string.Empty;
+                    y++;
                 }
-                if (tempSteps < steps) steps = tempSteps;
             }
-            return steps;
+            if (arr[length - 1].Length != k)
+            {
+                int n = k - arr[length - 1].Length;
+                for (int i = 0; i < n; i++)
+                {
+                    arr[length - 1] += fill;
+                }
+            }
+            return arr;
         }
     }
 }
