@@ -2,41 +2,73 @@
 {
     class Program
     {
-        // 21/6/2025 | 3085. Minimum Deletions to Make String K-Special
+        // 23/6/2025 | 2081. Sum of k-Mirror Numbers
 
         public static void Main()
         {
-            Console.WriteLine(Solution("ctoyjrwtngqwt", 8, 'n'));
+            Console.WriteLine(Solution(3, 7));
         }
-
-        public static string[] Solution(string s, int k, char fill)
+        // Số đầu gồm 9 số, vì không có số 0 đứng đầu, x số giữa có 10 số, số cuối phải == số đầu nên cũng có 9 số.
+        // nói chung là số số 0 == số cuối, số 1 = số cuối - 1, số 2 = số cuối - 2,... cho đến số giữa. Và phải thử hết toàn bộ trường hợp.
+        // Chỉ cần sinh số ở nửa đàu, xong sau đó lộn ngược lại ghép vào nửa sau, nếu số lẻ thì xóa bớt số đầu của nửa sau sau khi lật, còn chẵn thì giữ nguyên, mỗi lần tăng số thì mình chỉ cần tăng độ dài của nửa đầu là được.
+        // Ví dụ: số tổng có 5 chữ số, thì chỉ cần gen 3 số đầu là số từ 100 đến 999, sau đó lộn ngược lại là được. Chạy hết từ 100 đến 999.
+        // Ví dụ 8 số: gen 4 số đầu từ 1000 đến 9999, cũng là chạy bằng sạch, sau đó lộn ngược lại với từng số, xong check xem có palindrome với hệ số k k, nếu có thì sum += số và n++.
+        public static long Solution(int k, int n)
         {
-            int length = (int)Math.Ceiling((double)s.Length / k);
-            string[] arr = new string[length];
-            int x = 0;
-            string temp = string.Empty;
-            int y = 0;
-            for (int i = 0; i < s.Length; i++)
+            long sum = 0;
+            long count = 0;
+            long numLength = 1;
+            string ConvertToBaseK(long number, int k)
             {
-                temp += s[i];
-                x++;
-                if (x == k || i == s.Length - 1)
+                string numK = "";
+                while (number > 0)
                 {
-                    x = 0;
-                    arr[y] = temp;
-                    temp = string.Empty;
-                    y++;
+                    long x = number % k;
+                    numK = x + numK;
+                    number /= k;
                 }
+                return numK;
             }
-            if (arr[length - 1].Length != k)
+            bool IsPalindrome(string s)
             {
-                int n = k - arr[length - 1].Length;
-                for (int i = 0; i < n; i++)
+                for (int i = 0; i < s.Length / 2; i++)
                 {
-                    arr[length - 1] += fill;
+                    if (s[i] != s[s.Length - 1 - i])
+                    {
+                        return false;
+                    }
                 }
+                return true;
             }
-            return arr;
+            while (true)
+            {
+                long x = (long)Math.Ceiling((double)numLength / 2);
+                long start = (long)Math.Pow(10, x - 1);
+                long end = (long)Math.Pow(10, x) - 1;
+                for (long i = start; i <= end; i++)
+                {
+                    // lộn số lại, sau đó chuyển qua hệ số k, check xem có palindrome không, nếu có n++ và sum +=
+                    string temp = i.ToString();
+                    if (numLength % 2 == 0)
+                    {
+                        temp += new string([.. temp.Reverse()]);
+                    }
+                    else
+                    {
+                        string temp2 = new string([.. temp.Reverse()]);
+                        temp += temp2.Substring(1);
+                    }
+                    long num = long.Parse(temp);
+                    if (IsPalindrome(ConvertToBaseK(num, k)))
+                    {
+                        sum += num;
+                        count++;
+                        if (count == n)    // vừa đủ, trả về luôn
+                            return sum;
+                    }
+                }
+                numLength++;
+            }
         }
     }
 }
