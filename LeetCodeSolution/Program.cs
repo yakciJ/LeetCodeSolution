@@ -10,25 +10,22 @@
         }
         public static IList<int> Solution(int[] nums, int key, int k)
         {
-            HashSet<int> set = new HashSet<int>();
-            void addToHash(int start, int end)
-            {
-                if(end >= nums.Length) end = nums.Length - 1;
-                if(start < 0) start = 0;
-                for (int i = start; i <= end; i++)
-                {
-                    set.Add(i);
-                }
-            }
+            List<int> res = new List<int>();
+            int min = 0;
             for (int i = 0; i < nums.Length; i++)
             {
                 if (nums[i] == key)
                 {
-                    addToHash(i - k, i + k);
+                    int start = Math.Max(min, i - k);
+                    int end = Math.Min(i + k, nums.Length - 1); 
+                    for(int j = start; j <= end; j++)
+                    {
+                        res.Add(j);
+                    }
+                    min = i + k + 1;
                 }
             }
-            IList<int> list = [.. set];
-            return list;
+            return res;
         }
     }
 }
