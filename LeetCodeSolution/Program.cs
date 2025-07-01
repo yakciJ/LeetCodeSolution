@@ -2,32 +2,38 @@
 {
     class Program
     {
-        // 30/6/2025 | 594. Longest Harmonious Subsequence
+        // 1/7/2025 | 3330. Find the Original Typed String I
 
         public static void Main()
         {
-            Console.WriteLine(Solution([1, 2, 2, 1]));
+            Console.WriteLine(Solution("abbcccc"));
         }
-        public static int Solution(int[] nums)
+        public static int Solution(string word)
         {
-            int maxLength = 0;
-            Dictionary<int, int> freq = new Dictionary<int, int>();
-            for (int i = 0; i < nums.Length; i++)
+            int total = 1;
+            int count = 0;
+            char present = word[0];
+            for (int i = 1; i < word.Length; i++)
             {
-                if (freq.ContainsKey(nums[i]))
+                if (word[i] == present)
                 {
-                    freq[nums[i]]++;
+                    count++;
                 }
-                else freq[nums[i]] = 1;
+                else
+                {
+                    if (count > 0)
+                    {
+                        total += count;
+                    }
+                    present = word[i];
+                    count = 0;
+                }
             }
-            foreach (var num in freq.Keys)
+            if (count > 0)
             {
-                if (freq.ContainsKey(num + 1))
-                {
-                    maxLength = Math.Max(maxLength, freq[num] + freq[num + 1]);
-                }
+                total += count;
             }
-            return maxLength;
+            return total;
         }
     }
 }
