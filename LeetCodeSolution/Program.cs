@@ -2,32 +2,25 @@
 {
     class Program
     {
-        // 02/07/2025 | 2566. Maximum Difference by Remapping a Digit
+        // 03/07/2025 | 3304. Find the K-th Character in String Game I
 
         public static void Main()
         {
-            Console.WriteLine(Solution(11891));
+            Console.WriteLine(Solution(5));
         }
-        public static int Solution(int num)
+        public static char Solution(int k)
         {
-            int max = num;
-            int min = num;
-            string str = num.ToString();
-            for (int i = 0; i < 10; i++)
+            string word = "a";
+            while (word.Length < k)
             {
-                char digitChar = (char)('0' + i);
-                string result = str.Replace(digitChar, '9');
-                if (int.Parse(result) > max)
+                string temp = "";
+                for (int i = 0; i < word.Length; i++)
                 {
-                    max = int.Parse(result);
+                    temp += (char)(word[i] + 1);
                 }
-                result = str.Replace(digitChar, '0');
-                if (int.Parse(result) < min)
-                {
-                    min = int.Parse(result);
-                }
+                word += temp;
             }
-            return max - min;
+            return word[k - 1];
         }
     }
 }
