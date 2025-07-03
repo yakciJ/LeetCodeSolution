@@ -2,38 +2,32 @@
 {
     class Program
     {
-        // 1/7/2025 | 3330. Find the Original Typed String I
+        // 02/07/2025 | 2566. Maximum Difference by Remapping a Digit
 
         public static void Main()
         {
-            Console.WriteLine(Solution("abbcccc"));
+            Console.WriteLine(Solution(11891));
         }
-        public static int Solution(string word)
+        public static int Solution(int num)
         {
-            int total = 1;
-            int count = 0;
-            char present = word[0];
-            for (int i = 1; i < word.Length; i++)
+            int max = num;
+            int min = num;
+            string str = num.ToString();
+            for (int i = 0; i < 10; i++)
             {
-                if (word[i] == present)
+                char digitChar = (char)('0' + i);
+                string result = str.Replace(digitChar, '9');
+                if (int.Parse(result) > max)
                 {
-                    count++;
+                    max = int.Parse(result);
                 }
-                else
+                result = str.Replace(digitChar, '0');
+                if (int.Parse(result) < min)
                 {
-                    if (count > 0)
-                    {
-                        total += count;
-                    }
-                    present = word[i];
-                    count = 0;
+                    min = int.Parse(result);
                 }
             }
-            if (count > 0)
-            {
-                total += count;
-            }
-            return total;
+            return max - min;
         }
     }
 }
