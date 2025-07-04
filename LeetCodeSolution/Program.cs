@@ -2,25 +2,42 @@
 {
     class Program
     {
-        // 03/07/2025 | 3304. Find the K-th Character in String Game I
+        // 04/07/2025 | 3307. Find the K-th Character in String Game II
 
         public static void Main()
         {
-            Console.WriteLine(Solution(5));
+            Console.WriteLine(Solution(3, [1, 0]));
         }
-        public static char Solution(int k)
+        // Tối ưu bài hôm qua thì được bài hôm nay
+        public static char Solution(long k, int[] operations)
         {
-            string word = "a";
-            while (word.Length < k)
+            long length = 1;
+            long res = 0;
+            int a = operations.Length - 1;
+            for (int i = 0; i < operations.Length; i++)
             {
-                string temp = "";
-                for (int i = 0; i < word.Length; i++)
+                if (length >= k)
                 {
-                    temp += (char)(word[i] + 1);
+                    a = i - 1;
+                    break;
                 }
-                word += temp;
+                length *= 2;
             }
-            return word[k - 1];
+            while (length > 1)
+            {
+                if (k > length / 2)
+                {
+                    if (operations[a] == 1)
+                    {
+                        res = (res + 1) % 26;
+                    }
+                    k -= length / 2;
+                }
+                length = length / 2;
+                a--;
+            }
+            res %= 26;
+            return (char)('a' + res);
         }
     }
 }
