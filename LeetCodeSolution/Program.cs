@@ -2,42 +2,36 @@
 {
     class Program
     {
-        // 04/07/2025 | 3307. Find the K-th Character in String Game II
+        // 05/07/2025 | 1394. Find Lucky Integer in an Array
 
         public static void Main()
         {
-            Console.WriteLine(Solution(3, [1, 0]));
+            Console.WriteLine(Solution([2, 2, 3, 4]));
         }
-        // Tối ưu bài hôm qua thì được bài hôm nay
-        public static char Solution(long k, int[] operations)
+        // 
+        public static int Solution(int[] arr)
         {
-            long length = 1;
-            long res = 0;
-            int a = operations.Length - 1;
-            for (int i = 0; i < operations.Length; i++)
+            int lucky = -1;
+            Dictionary<int, int> freq = new Dictionary<int, int>();
+            foreach (int i in arr)
             {
-                if (length >= k)
+                if (freq.ContainsKey(i))
                 {
-                    a = i - 1;
-                    break;
+                    freq[i]++;
                 }
-                length *= 2;
+                else freq[i] = 1;
             }
-            while (length > 1)
+            foreach (var temp in freq)
             {
-                if (k > length / 2)
+                if (temp.Value == temp.Key)
                 {
-                    if (operations[a] == 1)
+                    if (temp.Key > lucky)
                     {
-                        res = (res + 1) % 26;
+                        lucky = temp.Key;
                     }
-                    k -= length / 2;
                 }
-                length = length / 2;
-                a--;
             }
-            res %= 26;
-            return (char)('a' + res);
+            return lucky;
         }
     }
 }
