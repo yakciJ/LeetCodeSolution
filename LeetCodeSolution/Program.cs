@@ -23,7 +23,7 @@
                 this.nums1 = nums1;
                 this.nums2 = nums2;
                 this.freq = new Dictionary<int, int>();
-                foreach(int i in nums1)
+                foreach(int i in nums2)
                 {
                     if (freq.ContainsKey(i))
                     {
@@ -35,17 +35,27 @@
 
             public void Add(int index, int val)
             {
+                freq[nums2[index]]--;
+                if (freq[nums2[index]] == 0)
+                {
+                    freq.Remove(nums2[index]);
+                }
                 nums2[index] += val;
+                if (freq.ContainsKey(nums2[index]))
+                {
+                    freq[nums2[index]]++;
+                }
+                else freq[nums2[index]] = 1;
             }
 
             public int Count(int tot)
             {
                 int count = 0;
-                for(int i = 0; i < nums2.Length; i++)
+                for(int i = 0; i < nums1.Length; i++)
                 {
-                    if (freq.ContainsKey(tot - nums2[i]))
+                    if (freq.ContainsKey(tot - nums1[i]))
                     {
-                        count += freq[tot - nums2[i]];
+                        count += freq[tot - nums1[i]];
                     }
                 }
                 return count;
