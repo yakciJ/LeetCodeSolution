@@ -2,71 +2,44 @@
 {
     class Program
     {
-        // 06/07/2025 | 1865. Finding Pairs With a Certain Sum
+        // 07/07/2025 | 1353. Maximum Number of Events That Can Be Attended
 
         public static void Main()
         {
-            Console.WriteLine(Solution([2, 2, 3, 4]));
+            Console.WriteLine(Solution([[1, 2], [2, 3], [3, 4]]));
         }
-        // 
-        public static int Solution(int[] arr)
+        // min-heap + greedy
+        public static int Solution(int[][] events)
         {
-            
+            Array.Sort(events, (a, b) => a[0] - b[0]);
+            int day = events[0][0];
+            int maxDay = 0;
+            for (var j = 0; j < events.Length; j++)
+            {
+                maxDay = Math.Max(maxDay, events[j][1]);
+            }
+            var lastDay = new PriorityQueue<int, int>();
+            int i = 0;
+            int max = 0;
+            while (day <= maxDay)
+            {
+                while (i < events.Length && events[i][0] == day)
+                {
+                    lastDay.Enqueue(events[i][1], events[i][1]);
+                    i++;
+                }
+                while (lastDay.Count > 0 && lastDay.Peek() < day)
+                {
+                    lastDay.Dequeue();
+                }
+                if (lastDay.Count > 0)
+                {
+                    lastDay.Dequeue();
+                    max++;
+                }
+                day++;
+            }
+            return max;
         }
-        public class FindSumPairs
-        {
-            private int[] nums1;
-            private int[] nums2;
-            private Dictionary<int, int> freq;
-            public FindSumPairs(int[] nums1, int[] nums2)
-            {
-                this.nums1 = nums1;
-                this.nums2 = nums2;
-                this.freq = new Dictionary<int, int>();
-                foreach(int i in nums2)
-                {
-                    if (freq.ContainsKey(i))
-                    {
-                        freq[i]++;
-                    }
-                    else freq[i] = 1;
-                }
-            }
-
-            public void Add(int index, int val)
-            {
-                freq[nums2[index]]--;
-                if (freq[nums2[index]] == 0)
-                {
-                    freq.Remove(nums2[index]);
-                }
-                nums2[index] += val;
-                if (freq.ContainsKey(nums2[index]))
-                {
-                    freq[nums2[index]]++;
-                }
-                else freq[nums2[index]] = 1;
-            }
-
-            public int Count(int tot)
-            {
-                int count = 0;
-                for(int i = 0; i < nums1.Length; i++)
-                {
-                    if (freq.ContainsKey(tot - nums1[i]))
-                    {
-                        count += freq[tot - nums1[i]];
-                    }
-                }
-                return count;
-            }
-        }
-
-        /**
-         * Your FindSumPairs object will be instantiated and called as such:
-         * FindSumPairs obj = new FindSumPairs(nums1, nums2);
-         * obj.Add(index,val);
-         * int param_2 = obj.Count(tot);
-         */
     }
 }
