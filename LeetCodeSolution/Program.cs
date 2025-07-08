@@ -12,27 +12,23 @@
         public static int Solution(string s)
         {
             int sum = 0;
+            Dictionary<char, int> RomanNums = new Dictionary<char, int>
+            {
+                ['I'] = 1,
+                ['V'] = 5,
+                ['X'] = 10,
+                ['L'] = 50,
+                ['C'] = 100,
+                ['D'] = 500,
+                ['M'] = 1000
+            };
             for (int i = 0; i < s.Length; i++)
             {
-                if (s[i] == 'I' && i < s.Length - 1 && (s[i + 1] == 'V' || s[i + 1] == 'X'))
+                if (i < s.Length - 1 && RomanNums[s[i]] < RomanNums[s[i + 1]])
                 {
-                    sum--;
+                    sum -= RomanNums[s[i]];
                 }
-                else if (s[i] == 'I') sum++;
-                if (s[i] == 'V') sum += 5;
-                if (s[i] == 'X' && i < s.Length - 1 && (s[i + 1] == 'L' || s[i + 1] == 'C'))
-                {
-                    sum -= 10;
-                }
-                else if (s[i] == 'X') sum += 10;
-                if (s[i] == 'L') sum += 50;
-                if (s[i] == 'C' && i < s.Length - 1 && (s[i + 1] == 'D' || s[i + 1] == 'M'))
-                {
-                    sum -= 100;
-                }
-                else if (s[i] == 'C') sum += 100;
-                if (s[i] == 'D') sum += 500;
-                if (s[i] == 'M') sum += 1000;
+                else sum += RomanNums[s[i]];
             }
             return sum;
         }
