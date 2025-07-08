@@ -2,24 +2,39 @@
 {
     class Program
     {
-        // 08/07/2025 | 9. Palindrome Number
+        // 08/07/2025 | 13. Roman to Integer
 
         public static void Main()
         {
-            Console.WriteLine(Solution(121));
+            Console.WriteLine(Solution("III"));
         }
         // aaaaaaaaaaa
-        public static bool Solution(int x)
+        public static int Solution(string s)
         {
-            string a = x.ToString();
-            for (int i = 0; i < a.Length / 2; i++)
+            int sum = 0;
+            for (int i = 0; i < s.Length; i++)
             {
-                if (a[i] != a[a.Length - i - 1])
+                if (s[i] == 'I' && i < s.Length - 1 && (s[i + 1] == 'V' || s[i + 1] == 'X'))
                 {
-                    return false;
+                    sum--;
                 }
+                else if (s[i] == 'I') sum++;
+                if (s[i] == 'V') sum += 5;
+                if (s[i] == 'X' && i < s.Length - 1 && (s[i + 1] == 'L' || s[i + 1] == 'C'))
+                {
+                    sum -= 10;
+                }
+                else if (s[i] == 'X') sum += 10;
+                if (s[i] == 'L') sum += 50;
+                if (s[i] == 'C' && i < s.Length - 1 && (s[i + 1] == 'D' || s[i + 1] == 'M'))
+                {
+                    sum -= 100;
+                }
+                else if (s[i] == 'C') sum += 100;
+                if (s[i] == 'D') sum += 500;
+                if (s[i] == 'M') sum += 1000;
             }
-            return true;
+            return sum;
         }
     }
 }
