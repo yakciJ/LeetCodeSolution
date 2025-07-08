@@ -2,44 +2,28 @@
 {
     class Program
     {
-        // 07/07/2025 | 1353. Maximum Number of Events That Can Be Attended
+        // 08/07/2025 | 1. Two Sum
 
         public static void Main()
         {
-            Console.WriteLine(Solution([[1, 2], [2, 3], [3, 4]]));
+            Console.WriteLine(Solution([3, 2, 4], 6));
         }
-        // min-heap + greedy
-        public static int Solution(int[][] events)
+        // aaaaaaaaaaa
+        public static int[] Solution(int[] nums, int target)
         {
-            Array.Sort(events, (a, b) => a[0] - b[0]);
-            int day = events[0][0];
-            int maxDay = 0;
-            for (var j = 0; j < events.Length; j++)
+            Dictionary<int, int> index = new Dictionary<int, int>();
+            for (int i = 0; i < nums.Length; i++)
             {
-                maxDay = Math.Max(maxDay, events[j][1]);
+                if (index.Count > 0 && index.ContainsKey(target - nums[i]))
+                {
+                    return [index[target - nums[i]], i];
+                }
+                if (!index.ContainsKey(nums[i]))
+                {
+                    index.Add(nums[i], i);
+                }
             }
-            var lastDay = new PriorityQueue<int, int>();
-            int i = 0;
-            int max = 0;
-            while (day <= maxDay)
-            {
-                while (i < events.Length && events[i][0] == day)
-                {
-                    lastDay.Enqueue(events[i][1], events[i][1]);
-                    i++;
-                }
-                while (lastDay.Count > 0 && lastDay.Peek() < day)
-                {
-                    lastDay.Dequeue();
-                }
-                if (lastDay.Count > 0)
-                {
-                    lastDay.Dequeue();
-                    max++;
-                }
-                day++;
-            }
-            return max;
+            return [0, 0];
         }
     }
 }
