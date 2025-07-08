@@ -2,28 +2,24 @@
 {
     class Program
     {
-        // 08/07/2025 | 1. Two Sum
+        // 08/07/2025 | 9. Palindrome Number
 
         public static void Main()
         {
-            Console.WriteLine(Solution([3, 2, 4], 6));
+            Console.WriteLine(Solution(121));
         }
         // aaaaaaaaaaa
-        public static int[] Solution(int[] nums, int target)
+        public static bool Solution(int x)
         {
-            Dictionary<int, int> index = new Dictionary<int, int>();
-            for (int i = 0; i < nums.Length; i++)
+            string a = x.ToString();
+            for (int i = 0; i < a.Length / 2; i++)
             {
-                if (index.Count > 0 && index.ContainsKey(target - nums[i]))
+                if (a[i] != a[a.Length - i - 1])
                 {
-                    return [index[target - nums[i]], i];
-                }
-                if (!index.ContainsKey(nums[i]))
-                {
-                    index.Add(nums[i], i);
+                    return false;
                 }
             }
-            return [0, 0];
+            return true;
         }
     }
 }
