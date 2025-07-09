@@ -2,35 +2,36 @@
 {
     class Program
     {
-        // 08/07/2025 | 13. Roman to Integer
+        // 09/07/2025 | 3439. Reschedule Meetings for Maximum Free Time I
 
         public static void Main()
         {
-            Console.WriteLine(Solution("III"));
+            Console.WriteLine(Solution(5, 1, [1, 3], [2, 5]));
         }
-        // aaaaaaaaaaa
-        public static int Solution(string s)
+        // dung sliding window
+        public static int Solution(int eventTime, int k, int[] startTime, int[] endTime)
         {
             int sum = 0;
-            Dictionary<char, int> RomanNums = new Dictionary<char, int>
+            var start = new List<int>(startTime);
+            var end = new List<int>(endTime);
+            start.Add(eventTime);
+            end.Insert(0, 0);
+            List<int> free = new List<int>();
+            for (int i = 0; i < end.Count; i++)
             {
-                ['I'] = 1,
-                ['V'] = 5,
-                ['X'] = 10,
-                ['L'] = 50,
-                ['C'] = 100,
-                ['D'] = 500,
-                ['M'] = 1000
-            };
-            for (int i = 0; i < s.Length; i++)
-            {
-                if (i < s.Length - 1 && RomanNums[s[i]] < RomanNums[s[i + 1]])
-                {
-                    sum -= RomanNums[s[i]];
-                }
-                else sum += RomanNums[s[i]];
+                free.Add(start[i] - end[i]);
             }
-            return sum;
+            for (int i = 0; i < k + 1; i++)
+            {
+                sum += free[i];
+            }
+            int max = sum;
+            for (int i = k + 1; i < free.Count; i++)
+            {
+                sum += free[i] - free[i - (k+1)];
+                if (sum > max) max = sum;
+            }
+            return max;
         }
     }
 }
