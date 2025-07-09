@@ -2,36 +2,35 @@
 {
     class Program
     {
-        // 09/07/2025 | 3439. Reschedule Meetings for Maximum Free Time I
+        // 09/07/2025 | 20. Valid Parentheses
 
         public static void Main()
         {
-            Console.WriteLine(Solution(5, 1, [1, 3], [2, 5]));
+            Console.WriteLine(Solution("()"));
         }
-        // dung sliding window
-        public static int Solution(int eventTime, int k, int[] startTime, int[] endTime)
+        // dung stack
+        public static bool Solution(string s)
         {
-            int sum = 0;
-            var start = new List<int>(startTime);
-            var end = new List<int>(endTime);
-            start.Add(eventTime);
-            end.Insert(0, 0);
-            List<int> free = new List<int>();
-            for (int i = 0; i < end.Count; i++)
+            Stack<char> stack = new Stack<char>();
+            foreach (char c in s)
             {
-                free.Add(start[i] - end[i]);
+                if (c == '(' || c == '[' || c == '{') stack.Push(c);
+                else if (c == ')' && stack.Count > 0 && stack.Peek() == '(')
+                {
+                    stack.Pop();
+                }
+                else if (c == ']' && stack.Count > 0 && stack.Peek() == '[')
+                {
+                    stack.Pop();
+                }
+                else if (c == '}' && stack.Count > 0 && stack.Peek() == '{')
+                {
+                    stack.Pop();
+                }
+                else return false;
             }
-            for (int i = 0; i < k + 1; i++)
-            {
-                sum += free[i];
-            }
-            int max = sum;
-            for (int i = k + 1; i < free.Count; i++)
-            {
-                sum += free[i] - free[i - (k+1)];
-                if (sum > max) max = sum;
-            }
-            return max;
+            if(stack.Count > 0) return false;
+            return true;
         }
     }
 }
