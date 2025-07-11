@@ -2,43 +2,28 @@
 {
     class Program
     {
-        // 11/07/2025 | 21. Merge Two Sorted Lists
+        // 11/07/2025 | 26. Remove Duplicates from Sorted Array
 
         public static void Main()
         {
-            //Console.WriteLine(Solution(10, [0, 3, 7, 9], [1, 4, 8, 10]));
+            Console.WriteLine(Solution([0, 0, 1, 1, 1, 2, 2, 3, 3, 4]));
         }
-        // hoc LinkedList
-        public class ListNode
+        // dung two pointers
+
+        public static int Solution(int[] nums)
         {
-            public int val;
-            public ListNode next;
-            public ListNode(int val = 0, ListNode next = null)
+            int k = 1;
+            int current = nums[0];
+            for (int i = 0; i < nums.Length; i++)
             {
-                this.val = val;
-                this.next = next;
-            }
-        }
-        public static ListNode Solution(ListNode list1, ListNode list2)
-        {
-            ListNode dummy = new ListNode();
-            ListNode current = dummy;
-            while(list1 != null && list2 != null)
-            {
-                if(list1.val <= list2.val)
+                if (nums[i] != current)
                 {
-                    current.next = new ListNode(list1.val);
-                    list1 = list1.next;
+                    nums[k] = nums[i];
+                    current = nums[i];
+                    k++;
                 }
-                else
-                {
-                    current.next = new ListNode(list2.val);
-                    list2 = list2.next;
-                }
-                current = current.next;
             }
-            current.next = list1 ?? list2;
-            return dummy.next;
+            return k;
         }
     }
 }
