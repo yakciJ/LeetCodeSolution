@@ -2,60 +2,43 @@
 {
     class Program
     {
-        // 10/07/2025 | 3440. Reschedule Meetings for Maximum Free Time II
+        // 11/07/2025 | 21. Merge Two Sorted Lists
 
         public static void Main()
         {
-            Console.WriteLine(Solution(10, [0, 3, 7, 9], [1, 4, 8, 10]));
+            //Console.WriteLine(Solution(10, [0, 3, 7, 9], [1, 4, 8, 10]));
         }
-        // dung ...
-        public static int Solution(int eventTime, int[] startTime, int[] endTime)
+        // hoc LinkedList
+        public class ListNode
         {
-            int max = 0;
-            var start = new List<int>(startTime);
-            var end = new List<int>(endTime);
-            start.Add(eventTime);
-            end.Insert(0, 0);
-            var free = new List<(int length, int index)>();
-            for (int i = 0; i < end.Count; i++)
+            public int val;
+            public ListNode next;
+            public ListNode(int val = 0, ListNode next = null)
             {
-                free.Add((start[i] - end[i], i));
+                this.val = val;
+                this.next = next;
             }
-            if (free.Count >= 2)
+        }
+        public static ListNode Solution(ListNode list1, ListNode list2)
+        {
+            ListNode dummy = new ListNode();
+            ListNode current = dummy;
+            while(list1 != null && list2 != null)
             {
-                int sum = free[0].length + free[1].length;
-                max = sum;
-
-                for (int i = 2; i < free.Count; i++)
+                if(list1.val <= list2.val)
                 {
-                    sum += free[i].length - free[i - 2].length;
-                    if (sum > max) max = sum;
+                    current.next = new ListNode(list1.val);
+                    list1 = list1.next;
                 }
-            }
-            else if (free.Count == 1)
-            {
-                max = free[0].length;
-            }
-            else
-            {
-                max = 0;
-            }
-            var freeCopy = new List<(int length, int index)>(free);
-            free.Sort((a, b) => b.length.CompareTo(a.length));
-            for (int i = 0; i < startTime.Length; i++)
-            {
-                int meeting = endTime[i] - startTime[i];
-                for (int j = 0; j < free.Count; j++)
+                else
                 {
-                    if (free[j].length >= meeting && free[j].index != i && free[j].index != i + 1)
-                    {
-                        max = Math.Max(freeCopy[i].length + freeCopy[i + 1].length + meeting, max);
-                        break;
-                    }
-                    else if(free[j].length < meeting) break;
+                    current.next = new ListNode(list2.val);
+                    list2 = list2.next;
                 }
+                current = current.next;
             }
-            return max;
+            current.next = list1 ?? list2;
+            return dummy.next;
         }
     }
 }
