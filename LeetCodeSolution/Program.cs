@@ -30,12 +30,7 @@
                     return "";
                 }
             }
-            string res = "";
-            for (int i = 0; i < k; i++)
-            {
-                res += strs[0][i];
-            }
-            return res;
+            return strs[0][..k];
         }
     }
 }
