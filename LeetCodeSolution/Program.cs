@@ -2,28 +2,40 @@
 {
     class Program
     {
-        // 11/07/2025 | 26. Remove Duplicates from Sorted Array
+        // 12/07/2025 | 14. Longest Common Prefix
+        // ez
 
         public static void Main()
         {
-            Console.WriteLine(Solution([0, 0, 1, 1, 1, 2, 2, 3, 3, 4]));
+            Console.WriteLine(Solution(["flower", "flow", "flight"]));
         }
-        // dung two pointers
+        // 
 
-        public static int Solution(int[] nums)
+        public static string Solution(string[] strs)
         {
-            int k = 1;
-            int current = nums[0];
-            for (int i = 0; i < nums.Length; i++)
+            int k = strs[0].Length;
+            for (int i = 1; i < strs.Length; i++)
             {
-                if (nums[i] != current)
+                k = k >= strs[i].Length ? strs[i].Length : k;
+                for (int j = 0; j < k; j++)
                 {
-                    nums[k] = nums[i];
-                    current = nums[i];
-                    k++;
+                    if (strs[i][j] != strs[0][j])
+                    {
+                        k = j;
+                        break;
+                    }
+                }
+                if (k == 0)
+                {
+                    return "";
                 }
             }
-            return k;
+            string res = "";
+            for (int i = 0; i < k; i++)
+            {
+                res += strs[0][i];
+            }
+            return res;
         }
     }
 }
