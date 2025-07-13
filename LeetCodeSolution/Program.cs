@@ -2,35 +2,34 @@
 {
     class Program
     {
-        // 12/07/2025 | 14. Longest Common Prefix
-        // ez
+        // 13/07/2025 | 2410. Maximum Matching of Players With Trainers
+        // med
 
         public static void Main()
         {
-            Console.WriteLine(Solution(["flower", "flow", "flight"]));
+            Console.WriteLine(Solution([4, 7, 9], [8, 2, 5, 8]));
         }
-        // 
+        // wtf? tuong bai kho ma the d nao
 
-        public static string Solution(string[] strs)
+        public static int Solution(int[] players, int[] trainers)
         {
-            int k = strs[0].Length;
-            for (int i = 1; i < strs.Length; i++)
+            int count = 0;
+            Array.Sort(players);
+            Array.Sort(trainers);
+            Array.Reverse(players);
+            Array.Reverse(trainers);
+            int i = 0, j = 0;
+            while (i < players.Length && j < trainers.Length)
             {
-                k = k >= strs[i].Length ? strs[i].Length : k;
-                for (int j = 0; j < k; j++)
+                if (players[i] <= trainers[j])
                 {
-                    if (strs[i][j] != strs[0][j])
-                    {
-                        k = j;
-                        break;
-                    }
+                    count++;
+                    j++;
+                    i++;
                 }
-                if (k == 0)
-                {
-                    return "";
-                }
+                else i++;
             }
-            return strs[0][..k];
+            return count;
         }
     }
 }
