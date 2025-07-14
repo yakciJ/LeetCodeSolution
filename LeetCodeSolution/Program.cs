@@ -7,38 +7,56 @@
 
         public static void Main()
         {
-            //Console.WriteLine(Solution([1, 0, 1]);
+            Console.WriteLine(Solution([1, 0, 1, 0, 1, 0, 1], 1));
         }
         // greedy
-        public static int Solution(string s)
+        public static bool Solution(int[] flowerbed, int n)
         {
-            int res = 0;
-            Dictionary<char, int> dict = new Dictionary<char, int>();
-            for(int i = 0; i < s.Length; i++)
+            int empty = 0;
+            if (flowerbed.Length > 4)
             {
-                if (dict.ContainsKey(s[i]))
+                if (flowerbed[0] == 0 && flowerbed[1] == 0)
                 {
-                    dict[s[i]]++;
+                    flowerbed[0] = 1;
+                    empty = 1;
                 }
-                else dict[s[i]] = 1;
-                if (dict[s[i]] % 2 == 0)
+                for (int i = 1; i < flowerbed.Length - 1; i++)
                 {
-                    res += 2;
+                    if (flowerbed[i - 1] == 0 && flowerbed[i + 1] == 0 && flowerbed[i] == 0)
+                    {
+                        flowerbed[i] = 1;
+                        empty++;
+                    }
+                }
+                if (flowerbed[flowerbed.Length - 1] == 0 && flowerbed[flowerbed.Length - 2] == 0)
+                {
+                    empty++;
                 }
             }
-            //foreach(var val in dict.Values)
-            //{
-            //    if (val % 2 == 0)
-            //    {
-            //        res += val;
-            //    }
-            //    else res += val - 1;
-            //}
-            if(res % 2 == 0 && res < s.Length)
+            else if (flowerbed.Length >= 3)
             {
-                res++;
+                if (flowerbed[0] == 0 && flowerbed[1] == 0)
+                {
+                    empty++;
+                }
+                if (flowerbed[flowerbed.Length - 1] == 0 && flowerbed[flowerbed.Length - 2] == 0)
+                {
+                    empty++;
+                }
             }
-            return res;
+            else if (flowerbed.Length == 2)
+            {
+                if (flowerbed[0] == 0 && flowerbed[1] == 0)
+                {
+                    empty++;
+                }
+            }
+            else if (flowerbed[0] == 0)
+            {
+                empty++;
+            }
+            if (empty >= n) return true;
+            else return false;
         }
     }
 }
