@@ -2,61 +2,23 @@
 {
     class Program
     {
-        // 14/07/2025 | 605. Can Place Flowers
+        // 14/07/2025 | 561. Array Partition
         // ez
 
         public static void Main()
         {
-            Console.WriteLine(Solution([1, 0, 1, 0, 1, 0, 1], 1));
+            Console.WriteLine(Solution([1, 4, 3, 2]));
         }
         // greedy
-        public static bool Solution(int[] flowerbed, int n)
+        public static int Solution(int[] nums)
         {
-            int empty = 0;
-            if (flowerbed.Length > 4)
+            int res = 0;
+            Array.Sort(nums);
+            for (int i = 0; i < nums.Length; i += 2)
             {
-                if (flowerbed[0] == 0 && flowerbed[1] == 0)
-                {
-                    flowerbed[0] = 1;
-                    empty = 1;
-                }
-                for (int i = 1; i < flowerbed.Length - 1; i++)
-                {
-                    if (flowerbed[i - 1] == 0 && flowerbed[i + 1] == 0 && flowerbed[i] == 0)
-                    {
-                        flowerbed[i] = 1;
-                        empty++;
-                    }
-                }
-                if (flowerbed[flowerbed.Length - 1] == 0 && flowerbed[flowerbed.Length - 2] == 0)
-                {
-                    empty++;
-                }
+                res += nums[i];
             }
-            else if (flowerbed.Length >= 3)
-            {
-                if (flowerbed[0] == 0 && flowerbed[1] == 0)
-                {
-                    empty++;
-                }
-                if (flowerbed[flowerbed.Length - 1] == 0 && flowerbed[flowerbed.Length - 2] == 0)
-                {
-                    empty++;
-                }
-            }
-            else if (flowerbed.Length == 2)
-            {
-                if (flowerbed[0] == 0 && flowerbed[1] == 0)
-                {
-                    empty++;
-                }
-            }
-            else if (flowerbed[0] == 0)
-            {
-                empty++;
-            }
-            if (empty >= n) return true;
-            else return false;
+            return res;
         }
     }
 }
