@@ -2,34 +2,33 @@
 {
     class Program
     {
-        // 13/07/2025 | 2410. Maximum Matching of Players With Trainers
-        // med
+        // 14/07/2025 | 1290. Convert Binary Number in a Linked List to Integer
+        // ez
 
         public static void Main()
         {
-            Console.WriteLine(Solution([4, 7, 9], [8, 2, 5, 8]));
+            //Console.WriteLine(Solution([1, 0, 1]);
         }
-        // wtf? tuong bai kho ma the d nao
-
-        public static int Solution(int[] players, int[] trainers)
+        // hoc ve shift left operation, hoc ve toan tu lq den bit
+        public class ListNode
         {
-            int count = 0;
-            Array.Sort(players);
-            Array.Sort(trainers);
-            Array.Reverse(players);
-            Array.Reverse(trainers);
-            int i = 0, j = 0;
-            while (i < players.Length && j < trainers.Length)
+            public int val;
+            public ListNode next;
+            public ListNode(int val = 0, ListNode next = null)
             {
-                if (players[i] <= trainers[j])
-                {
-                    count++;
-                    j++;
-                    i++;
-                }
-                else i++;
+                this.val = val;
+                this.next = next;
             }
-            return count;
+        }
+        public static int Solution(ListNode head)
+        {
+            int res = 0;
+            while (head != null)
+            {
+                res = (res << 1) | head.val;
+                head = head.next;
+            }
+            return res;
         }
     }
 }
