@@ -2,23 +2,48 @@
 {
     class Program
     {
-        // 14/07/2025 | 561. Array Partition
-        // ez
+        // 15/07/2025 | 3136. Valid Word        
+        // ez  
 
         public static void Main()
         {
-            Console.WriteLine(Solution([1, 4, 3, 2]));
+            Console.WriteLine(Solution("234Adas")); // Example input  
         }
-        // greedy
-        public static int Solution(int[] nums)
+        //   
+        public static bool Solution(string word)
         {
-            int res = 0;
-            Array.Sort(nums);
-            for (int i = 0; i < nums.Length; i += 2)
+            List<char> myList = new List<char>() { 'u', 'e', 'o', 'a', 'i', 'U', 'E', 'O', 'A', 'I' };
+            bool vowel = false;
+            bool consonant = false;
+            if (word.Length < 3)
             {
-                res += nums[i];
+                return false;
             }
-            return res;
+            else
+            {
+                foreach (char c in word)
+                {
+                    if (c < '0' || c > 'z' || (c > '9' && c < 'A') || (c > 'Z' && c < 'a'))
+                    {
+                        return false;
+                    }
+                    if (!vowel)
+                    {
+                        if (myList.Contains(c))
+                        {
+                            vowel = true;
+                        }
+                    }
+                    if (!consonant)
+                    {
+                        if (!myList.Contains(c) && char.IsLetter(c))
+                        {
+                            consonant = true;
+                        }
+                    }
+                }
+            }
+            return vowel && consonant;
         }
     }
 }
