@@ -2,32 +2,33 @@
 {
     class Program
     {
-        // 16/07/2025 | 704. Binary Search
+        // 16/07/2025 | 3467. Transform Array by Parity
         // ez 
 
         public static void Main()
         {
-            Console.WriteLine(Solution([5], 5)); // Example input  
+            Console.WriteLine(Solution([4, 3, 2, 1])); // Example input  
         }
-        //  hoc ve binary search
-        public static int Solution(int[] nums, int target)
+        //  hoc ve sort truoc roi moi hoc dc ve binary, vi binary can sort
+        public static int[] Solution(int[] nums)
         {
-            int start = 0;
-            int end = nums.Length - 1;
-            while (start <= end)
+            int count = 0;
+            for(int i = 0; i < nums.Length; i++)
             {
-                int middle = ((end - start) / 2) + start;
-                if (nums[middle] == target)
+                if (nums[i] % 2 == 0)
                 {
-                    return middle;
+                    count++;
                 }
-                else if (nums[middle] < target)
-                {
-                    start = middle + 1;
-                }
-                else end = middle - 1;
             }
-            return -1;
+            for(int i = 0; i < nums.Length; i++)
+            {
+                if(i < count)
+                {
+                    nums[i] = 0;
+                }
+                else nums[i] = 1;
+            }
+            return nums;
         }
     }
 }
