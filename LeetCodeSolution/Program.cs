@@ -2,41 +2,32 @@
 {
     class Program
     {
-        // 16/07/2025 | 3201. Find the Maximum Length of Valid Subsequence I      
-        // med 
+        // 16/07/2025 | 704. Binary Search
+        // ez 
 
         public static void Main()
         {
-            Console.WriteLine(Solution([1, 2, 4, 7, 5, 8, 6, 3, 9, 10])); // Example input  
+            Console.WriteLine(Solution([5], 5)); // Example input  
         }
-        //   
-        public static int Solution(int[] nums)
+        //  hoc ve binary search
+        public static int Solution(int[] nums, int target)
         {
-            int countOdd = 0;
-            int countEven = 0;
-            int present = nums[0];
-            int count = 1;
-            if (nums[0] % 2 == 0)
+            int start = 0;
+            int end = nums.Length - 1;
+            while (start <= end)
             {
-                countEven++;
-            }
-            else countOdd++;
-            for (int i = 1; i < nums.Length; i++)
-            {
-                if (nums[i] % 2 == 0)
+                int middle = ((end - start) / 2) + start;
+                if (nums[middle] == target)
                 {
-                    countEven++;
+                    return middle;
                 }
-                else countOdd++;
-                if ((nums[i] + present) % 2 != 0)
+                else if (nums[middle] < target)
                 {
-                    count++;
-                    present = nums[i];
+                    start = middle + 1;
                 }
+                else end = middle - 1;
             }
-            int res = countEven > countOdd ? countEven : countOdd;
-            res = res > count ? res : count;
-            return res;
+            return -1;
         }
     }
 }
