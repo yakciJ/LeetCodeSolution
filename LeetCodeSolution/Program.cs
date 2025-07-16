@@ -2,48 +2,41 @@
 {
     class Program
     {
-        // 15/07/2025 | 3136. Valid Word        
-        // ez  
+        // 16/07/2025 | 3201. Find the Maximum Length of Valid Subsequence I      
+        // med 
 
         public static void Main()
         {
-            Console.WriteLine(Solution("234Adas")); // Example input  
+            Console.WriteLine(Solution([1, 2, 4, 7, 5, 8, 6, 3, 9, 10])); // Example input  
         }
         //   
-        public static bool Solution(string word)
+        public static int Solution(int[] nums)
         {
-            List<char> myList = new List<char>() { 'u', 'e', 'o', 'a', 'i', 'U', 'E', 'O', 'A', 'I' };
-            bool vowel = false;
-            bool consonant = false;
-            if (word.Length < 3)
+            int countOdd = 0;
+            int countEven = 0;
+            int present = nums[0];
+            int count = 1;
+            if (nums[0] % 2 == 0)
             {
-                return false;
+                countEven++;
             }
-            else
+            else countOdd++;
+            for (int i = 1; i < nums.Length; i++)
             {
-                foreach (char c in word)
+                if (nums[i] % 2 == 0)
                 {
-                    if (c < '0' || c > 'z' || (c > '9' && c < 'A') || (c > 'Z' && c < 'a'))
-                    {
-                        return false;
-                    }
-                    if (!vowel)
-                    {
-                        if (myList.Contains(c))
-                        {
-                            vowel = true;
-                        }
-                    }
-                    if (!consonant)
-                    {
-                        if (!myList.Contains(c) && char.IsLetter(c))
-                        {
-                            consonant = true;
-                        }
-                    }
+                    countEven++;
+                }
+                else countOdd++;
+                if ((nums[i] + present) % 2 != 0)
+                {
+                    count++;
+                    present = nums[i];
                 }
             }
-            return vowel && consonant;
+            int res = countEven > countOdd ? countEven : countOdd;
+            res = res > count ? res : count;
+            return res;
         }
     }
 }
