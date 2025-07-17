@@ -2,33 +2,25 @@
 {
     class Program
     {
-        // 16/07/2025 | 3467. Transform Array by Parity
+        // 17/07/2025 | 338. Counting Bits
         // ez 
 
         public static void Main()
         {
-            Console.WriteLine(Solution([4, 3, 2, 1])); // Example input  
+            Console.WriteLine(Solution(10)); // Example input  
         }
-        //  hoc ve sort truoc roi moi hoc dc ve binary, vi binary can sort
-        public static int[] Solution(int[] nums)
+        //  hoc ve dp
+        public static int[] Solution(int n)
         {
-            int count = 0;
-            for(int i = 0; i < nums.Length; i++)
+            int[] ans = new int[n + 1];
+            for (int i = 0; i <= n; i++)
             {
-                if (nums[i] % 2 == 0)
-                {
-                    count++;
-                }
+                ans[i] = ans[i >> 1] + (i & 1);
             }
-            for(int i = 0; i < nums.Length; i++)
-            {
-                if(i < count)
-                {
-                    nums[i] = 0;
-                }
-                else nums[i] = 1;
-            }
-            return nums;
+            return ans;
         }
     }
 }
+
+
+
