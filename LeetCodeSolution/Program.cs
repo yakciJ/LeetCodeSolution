@@ -12,21 +12,21 @@
         //  hoc ve de quy recursion
         public static int Solution(int n)
         {
-            int[] memo = new int[n + 1];
-            return Fib(n, memo);
-        }
-        public static int Fib(int n, int[] memo)
-        {
-            if (n <= 1)
+            int one = 0;
+            int two = 0;
+            int three = 1;
+
+            if (n < 2)
             {
                 return n;
             }
-            if (memo[n] != 0)
+            for (int i = 2; i <= n; i++)
             {
-                return memo[n];
+                one = two + three;
+                two = three;
+                three = one;
             }
-            memo[n] = Fib(n - 1, memo) + Fib(n - 2, memo);
-            return memo[n];
+            return one;
         }
     }
 }
