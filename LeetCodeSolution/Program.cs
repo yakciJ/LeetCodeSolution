@@ -2,27 +2,27 @@
 {
     class Program
     {
-        // 18/07/2025 | 70. Climbing Stairs
+        // 18/07/2025 | 509. Fibonacci Number
         // ez 
 
         public static void Main()
         {
             Console.WriteLine(Solution(10)); // Example input  
         }
-        //  hoc ve dp
+        //  hoc ve de quy recursion
         public static int Solution(int n)
         {
-            int[] ans = new int[n + 1];
-            ans[0] = 1;
-            ans[1] = 2;
-            if (n > 2)
+            return Fib(n);
+        }
+        public static int Fib(int n)
+        {
+            if (n > 1)
             {
-                for (int i = 2; i < n; i++)
-                {
-                    ans[i] = ans[i - 1] + ans[i - 2];
-                }
+                return Fib(n - 1) + Fib(n - 2);
             }
-            return ans[n - 1];
+            else if (n == 1) return 1;
+            else if (n == 0) return 0;
+            return 0;
         }
     }
 }
