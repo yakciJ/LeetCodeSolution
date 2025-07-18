@@ -2,7 +2,7 @@
 {
     class Program
     {
-        // 17/07/2025 | 338. Counting Bits
+        // 18/07/2025 | 70. Climbing Stairs
         // ez 
 
         public static void Main()
@@ -10,14 +10,19 @@
             Console.WriteLine(Solution(10)); // Example input  
         }
         //  hoc ve dp
-        public static int[] Solution(int n)
+        public static int Solution(int n)
         {
             int[] ans = new int[n + 1];
-            for (int i = 0; i <= n; i++)
+            ans[0] = 1;
+            ans[1] = 2;
+            if (n > 2)
             {
-                ans[i] = ans[i >> 1] + (i & 1);
+                for (int i = 2; i < n; i++)
+                {
+                    ans[i] = ans[i - 1] + ans[i - 2];
+                }
             }
-            return ans;
+            return ans[n - 1];
         }
     }
 }
