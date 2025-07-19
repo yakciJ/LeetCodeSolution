@@ -2,31 +2,29 @@
 {
     class Program
     {
-        // 18/07/2025 | 509. Fibonacci Number
-        // ez 
+        // 18/07/2025 | 1233. Remove Sub-Folders from the Filesystem
+        // med 
 
         public static void Main()
         {
-            Console.WriteLine(Solution(10)); // Example input  
+            Console.WriteLine(Solution(["/a", "/a/b", "/c/d", "/c/d/e", "/c/f"])); // Example input  
         }
-        //  hoc ve de quy recursion
-        public static int Solution(int n)
+        //  
+        public static IList<string> Solution(string[] folder)
         {
-            int one = 0;
-            int two = 0;
-            int three = 1;
-
-            if (n < 2)
+            Array.Sort(folder);
+            var ans = new List<string>();
+            var prev = "";
+            foreach (var item in folder)
             {
-                return n;
+                if (prev == "" || !item.StartsWith(prev + "/"))
+                {
+                    ans.Add(item);
+                    prev = item;
+                    Console.WriteLine(prev);
+                }
             }
-            for (int i = 2; i <= n; i++)
-            {
-                one = two + three;
-                two = three;
-                three = one;
-            }
-            return one;
+            return ans;
         }
     }
 }
