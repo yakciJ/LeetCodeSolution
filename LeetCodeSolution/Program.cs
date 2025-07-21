@@ -2,57 +2,36 @@
 {
     class Program
     {
-        // 20/07/2025 | 203. Remove Linked List Elements
+        // 21/07/2025 | 1957. Delete Characters to Make Fancy String
         // ez
         public static void Main()
         {
-            Console.WriteLine(Solution(["/a", "/a/b", "/c/d", "/c/d/e", "/c/f"])); // Example input  
-        }
-        public class ListNode
-        {
-            public int val;
-            public ListNode next;
-            public ListNode(int val = 0, ListNode next = null)
-            {
-                this.val = val;
-                this.next = next;
-            }
-        }
-        static public ListNode RemoveElements(ListNode head, int val)
-        {
-            ListNode dummy = new ListNode(0);
-            dummy.next = head;
-            Recursion(dummy, val);
-            return dummy.next;
+            Console.WriteLine(Solution("leeetcode")); // Example input  
         }
 
-        static public void Recursion(ListNode head, int val)
+        public static string Solution(string s)
         {
-            if (head == null || head.next == null) return;
-            if (head.next.val == val)
+            char[] res = new char[s.Length];
+            int index = 0;
+            int count = 0;
+            char cur = s[0];
+            for (int i = 0; i < s.Length; i++)
             {
-                head.next = head.next.next;
-                Recursion(head, val);
-            }
-            else Recursion(head.next, val);
-        }
-
-
-        public static IList<string> Solution(string[] folder)
-        {
-            Array.Sort(folder);
-            var ans = new List<string>();
-            var prev = "";
-            foreach (var item in folder)
-            {
-                if (prev == "" || !item.StartsWith(prev + "/"))
+                if (s[i] == cur)
                 {
-                    ans.Add(item);
-                    prev = item;
-                    Console.WriteLine(prev);
+                    count++;
+                }
+                else
+                {
+                    cur = s[i];
+                    count = 1;
+                }
+                if (count < 3)
+                {
+                    res[index++] = s[i];
                 }
             }
-            return ans;
+            return new string(res, 0, index);
         }
     }
 }
