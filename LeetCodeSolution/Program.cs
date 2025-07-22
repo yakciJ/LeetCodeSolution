@@ -2,36 +2,34 @@
 {
     class Program
     {
-        // 21/07/2025 | 1957. Delete Characters to Make Fancy String
-        // ez
+        // 22/07/2025 | 1695. Maximum Erasure Value
+        // med
         public static void Main()
         {
-            Console.WriteLine(Solution("leeetcode")); // Example input  
+            Console.WriteLine(Solution([4, 2, 4, 5, 6])); // Example input  
+            Console.WriteLine(Solution([5, 2, 1, 2, 5, 2, 1, 2, 5])); // Example input  
         }
 
-        public static string Solution(string s)
+        public static int Solution(int[] nums)
         {
-            char[] res = new char[s.Length];
-            int index = 0;
-            int count = 0;
-            char cur = s[0];
-            for (int i = 0; i < s.Length; i++)
+            var unique = new HashSet<int>();
+            int sum = nums[0];
+            int max = nums[0];
+            int i = 0, j = 1;
+            unique.Add(nums[0]);
+            while (j < nums.Length)
             {
-                if (s[i] == cur)
+                while (!unique.Add(nums[j]))
                 {
-                    count++;
+                    sum -= nums[i];
+                    unique.Remove(nums[i]);
+                    i++;
                 }
-                else
-                {
-                    cur = s[i];
-                    count = 1;
-                }
-                if (count < 3)
-                {
-                    res[index++] = s[i];
-                }
+                sum += nums[j];
+                if (sum > max) max = sum;
+                j++;
             }
-            return new string(res, 0, index);
+            return max;
         }
     }
 }
