@@ -12,19 +12,20 @@
 
         public static int Solution(int[] nums)
         {
-            var unique = new HashSet<int>();
+            var unique = new bool[10001];
             int sum = nums[0];
             int max = nums[0];
             int i = 0, j = 1;
-            unique.Add(nums[0]);
+            unique[nums[0]] = true;
             while (j < nums.Length)
             {
-                while (!unique.Add(nums[j]))
+                while (unique[nums[j]] == true)
                 {
                     sum -= nums[i];
-                    unique.Remove(nums[i]);
+                    unique[nums[i]] = false;
                     i++;
                 }
+                unique[nums[j]] = true;
                 sum += nums[j];
                 if (sum > max) max = sum;
                 j++;
