@@ -2,35 +2,52 @@
 {
     class Program
     {
-        // 22/07/2025 | 1695. Maximum Erasure Value
+        // 23/07/2025 | 1717. Maximum Score From Removing Substrings
         // med
         public static void Main()
         {
-            Console.WriteLine(Solution([4, 2, 4, 5, 6])); // Example input  
-            Console.WriteLine(Solution([5, 2, 1, 2, 5, 2, 1, 2, 5])); // Example input  
+            Console.WriteLine(Solution("cdbcbbaaabab", 4, 5)); // Example input  
+            Console.WriteLine(Solution("aabbaaxybbaabb", 5, 4)); // Example input  
         }
 
-        public static int Solution(int[] nums)
+        public static int Solution(string s, int x, int y)
         {
-            var unique = new bool[10001];
-            int sum = nums[0];
-            int max = nums[0];
-            int i = 0, j = 1;
-            unique[nums[0]] = true;
-            while (j < nums.Length)
+            char a, b;
+            int score = 0;
+            int score1 = x > y ? x : y;
+            if (x > y)
             {
-                while (unique[nums[j]] == true)
-                {
-                    sum -= nums[i];
-                    unique[nums[i]] = false;
-                    i++;
-                }
-                unique[nums[j]] = true;
-                sum += nums[j];
-                if (sum > max) max = sum;
-                j++;
+                a = 'a';
+                b = 'b';
             }
-            return max;
+            else
+            {
+                a = 'b';
+                b = 'a';
+            }
+            Stack<char> chars = new Stack<char>();
+            for (int i = 0; i < s.Length; i++)
+            {
+                if (chars.Count > 0 && s[i] == b && chars.Peek() == a)
+                {
+                    score += score1;
+                    chars.Pop();
+                }
+                else chars.Push(s[i]);
+            }
+            score1 = x < y ? x : y;
+            var remaining = new string(chars.Reverse().ToArray());
+            chars = new Stack<char>();
+            for (int i = 0; i < remaining.Length; i++)
+            {
+                if (chars.Count > 0 && remaining[i] == a && chars.Peek() == b)
+                {
+                    score += score1;
+                    chars.Pop();
+                }
+                else chars.Push(remaining[i]);
+            }
+            return score;
         }
     }
 }
