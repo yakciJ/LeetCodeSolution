@@ -2,22 +2,35 @@
 {
     class Program
     {
-        // 24/07/2025 | 3110. Score of a String
+        // 25/07/2025 | 3487. Maximum Unique Subarray Sum After Deletion
         // ez
         public static void Main()
         {
-            Console.WriteLine(Solution("hello")); // Example input  
-            Console.WriteLine(Solution("asdasdwfcvqwescxzcergtasd")); // Example input  
+            Console.WriteLine(Solution([-1])); // Example input  
+            Console.WriteLine(Solution([1, 2, -1, -2, 1, 0, -1])); // Example input  
         }
 
-        public static int Solution(string s)
+        public static int Solution(int[] nums)
         {
-            int score = 0;
-            for (int i = 0; i < s.Length - 1; i++)
+            int sum = 0;
+            bool[] unique = new bool[201];
+            int j = 0;
+            int max = -101;
+            while (j < nums.Length)
             {
-                score += Math.Abs(s[i] - s[i + 1]);
+                if (nums[j] > 0 && unique[nums[j] + 100] == false)
+                {
+                    sum += nums[j];
+                    unique[nums[j] + 100] = true;
+                }
+                max = Math.Max(nums[j], max);
+                j++;
             }
-            return score;
+            if (max < 0)
+            {
+                return max;
+            }
+            return sum;
         }
     }
 }
