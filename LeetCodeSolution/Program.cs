@@ -2,27 +2,51 @@
 {
     class Program
     {
-        // 26/07/2025 | 27. Remove Element
+        // 26/07/2025 | 2210. Count Hills and Valleys in an Array
         // ez
         public static void Main()
         {
-            Console.WriteLine(Solution([3, 2, 2, 3], 3)); // Example input  
-            Console.WriteLine(Solution([0, 1, 2, 2, 3, 0, 4, 2], 2)); // Example input  
+            Console.WriteLine(Solution([2, 4, 1, 1, 6, 5])); // Example input  
+            Console.WriteLine(Solution([6, 6, 5, 5, 4, 1])); // Example input  
         }
 
-        public static int Solution(int[] nums, int val)
+        public static int Solution(int[] nums)
         {
-            int i = 0, j = 0;
+            int i = 0;
+            int j = 1;
+            string present = "";
+            int count = 0;
+            while (j < nums.Length && nums[i] == nums[j])
+            {
+                j++;
+            }
+            if (j == nums.Length) return 0;
+            if (nums[i] < nums[j])
+            {
+                present = "hill";
+            }
+            else present = "valley";
+            i = j;
+            j++;
             while (j < nums.Length)
             {
-                if (nums[j] != val)
+                if (nums[i] != nums[j])
                 {
-                    nums[i] = nums[j];
-                    i++;
+                    if (nums[i] < nums[j] && present == "valley")
+                    {
+                        present = "hill";
+                        count++;
+                    }
+                    else if (nums[i] > nums[j] && present == "hill")
+                    {
+                        present = "valley";
+                        count++;
+                    }
+                    i = j;
                 }
                 j++;
             }
-            return i;
+            return count;
         }
     }
 }
