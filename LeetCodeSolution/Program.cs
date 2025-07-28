@@ -2,8 +2,8 @@
 {
     class Program
     {
-        // 26/07/2025 | 2210. Count Hills and Valleys in an Array
-        // ez
+        // 28/07/2025 | 2044. Count Number of Maximum Bitwise-OR Subsets
+        // med
         public static void Main()
         {
             Console.WriteLine(Solution([2, 4, 1, 1, 6, 5])); // Example input  
@@ -12,40 +12,25 @@
 
         public static int Solution(int[] nums)
         {
-            int i = 0;
-            int j = 1;
-            string present = "";
+            int max = 0;
+            for (int i = 0; i < nums.Length; i++)
+            {
+                max |= nums[i];
+            }
             int count = 0;
-            while (j < nums.Length && nums[i] == nums[j])
+            void BackTracking(int start, int sum)
             {
-                j++;
-            }
-            if (j == nums.Length) return 0;
-            if (nums[i] < nums[j])
-            {
-                present = "hill";
-            }
-            else present = "valley";
-            i = j;
-            j++;
-            while (j < nums.Length)
-            {
-                if (nums[i] != nums[j])
+                for (int i = start; i < nums.Length; i++)
                 {
-                    if (nums[i] < nums[j] && present == "valley")
+                    int newSum = sum | nums[i];
+                    if (newSum == max)
                     {
-                        present = "hill";
                         count++;
                     }
-                    else if (nums[i] > nums[j] && present == "hill")
-                    {
-                        present = "valley";
-                        count++;
-                    }
-                    i = j;
+                    BackTracking(i + 1, newSum);
                 }
-                j++;
             }
+            BackTracking(0, 0);
             return count;
         }
     }
