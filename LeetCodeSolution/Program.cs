@@ -1,37 +1,45 @@
-﻿namespace LeetCodeSolution
+﻿
+namespace LeetCodeSolution
 {
     class Program
     {
-        // 28/07/2025 | 2044. Count Number of Maximum Bitwise-OR Subsets
+        // 29/07/2025 | 2411. Smallest Subarrays With Maximum Bitwise OR
+        // hpbd
         // med
         public static void Main()
         {
-            Console.WriteLine(Solution([2, 4, 1, 1, 6, 5])); // Example input  
-            Console.WriteLine(Solution([6, 6, 5, 5, 4, 1])); // Example input  
+            Console.WriteLine(Solution([1, 0, 2, 1, 3])); // Example input  
+            Console.WriteLine(Solution([1, 2])); // Example input  
         }
 
-        public static int Solution(int[] nums)
+        public static int[] Solution(int[] nums)
         {
-            int max = 0;
-            for (int i = 0; i < nums.Length; i++)
+            int[] lastSeen = new int[31];
+            for (int i = 0; i < 31; i++)
             {
-                max |= nums[i];
+                lastSeen[i] = -1;
             }
-            int count = 0;
-            void BackTracking(int start, int sum)
+            int[] res = new int[nums.Length];
+            for (int i = nums.Length - 1; i >= 0; i--)
             {
-                for (int i = start; i < nums.Length; i++)
+                for (int j = 0; j < 31; j++)
                 {
-                    int newSum = sum | nums[i];
-                    if (newSum == max)
+                    if (((nums[i] >> j) & 1) == 1)
                     {
-                        count++;
+                        lastSeen[j] = i;
                     }
-                    BackTracking(i + 1, newSum);
                 }
+                int max = i;
+                for (int j = 0; j < 31; j++)
+                {
+                    if (lastSeen[j] != -1)
+                    {
+                        max = Math.Max(max, lastSeen[j]);
+                    }
+                }
+                res[i] = max - i + 1;
             }
-            BackTracking(0, 0);
-            return count;
+            return res;
         }
     }
 }
