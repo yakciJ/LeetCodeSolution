@@ -3,38 +3,31 @@ namespace LeetCodeSolution
 {
     class Program
     {
-        // 30/07/2025 | 2419. Longest Subarray With Maximum Bitwise AND
+        // 31/07/2025 | 898. Bitwise ORs of Subarrays
         // med
         public static void Main()
         {
-            Console.WriteLine(Solution([1, 2, 3, 3, 2, 2])); // Example input  
-            Console.WriteLine(Solution([1, 2, 3, 4])); // Example input  
+            Console.WriteLine(Solution([1, 1, 2])); // Example input  
+            Console.WriteLine(Solution([1, 2, 4])); // Example input  
         }
 
-        public static int Solution(int[] nums)
+        public static int Solution(int[] arr)
         {
-            int maxCount = 1;
-            int count = 0;
-            int max = nums[0];
-            for (int i = 0; i < nums.Length; i++)
+            HashSet<int> uniqueOrs = new HashSet<int>();
+            HashSet<int> prev = new HashSet<int>();
+            for (int i = 0; i < arr.Length; i++)
             {
-                if (nums[i] > max)
+                HashSet<int> curr = new HashSet<int>();
+                foreach (var x in prev)
                 {
-                    max = nums[i];
-                    count = 1;
-                    maxCount = 1;
+                    curr.Add(x | arr[i]);
+                    uniqueOrs.Add(x | arr[i]);
                 }
-                else if (nums[i] == max)
-                {
-                    count++;
-                    if (count > maxCount)
-                    {
-                        maxCount = count;
-                    }
-                }
-                else count = 0;
+                curr.Add(arr[i]);
+                uniqueOrs.Add(arr[i]);
+                prev = curr;
             }
-            return maxCount;
+            return uniqueOrs.Count;
         }
     }
 }
