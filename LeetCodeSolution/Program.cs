@@ -1,33 +1,32 @@
-﻿
-namespace LeetCodeSolution
+﻿namespace LeetCodeSolution
 {
     class Program
     {
-        // 31/07/2025 | 898. Bitwise ORs of Subarrays
-        // med
+        // 01/08/2025 | 118. Pascal's Triangle
+        // ez
         public static void Main()
         {
-            Console.WriteLine(Solution([1, 1, 2])); // Example input  
-            Console.WriteLine(Solution([1, 2, 4])); // Example input  
+            Console.WriteLine(Solution(5)); // Example input  
+            Console.WriteLine(Solution(1)); // Example input  
         }
 
-        public static int Solution(int[] arr)
+        public static IList<IList<int>> Solution(int numRows)
         {
-            HashSet<int> uniqueOrs = new HashSet<int>();
-            HashSet<int> prev = new HashSet<int>();
-            for (int i = 0; i < arr.Length; i++)
+            List<IList<int>> rows = new List<IList<int>>();
+            for (int i = 0; i < numRows; i++)
             {
-                HashSet<int> curr = new HashSet<int>();
-                foreach (var x in prev)
+                List<int> row = new List<int>();
+                for (int j = 0; j <= i; j++)
                 {
-                    curr.Add(x | arr[i]);
-                    uniqueOrs.Add(x | arr[i]);
+                    if (j == 0 || j == i)
+                    {
+                        row.Add(1);
+                    }
+                    else row.Add(rows[i - 1][j - 1] + rows[i - 1][j]);
                 }
-                curr.Add(arr[i]);
-                uniqueOrs.Add(arr[i]);
-                prev = curr;
+                rows.Add(row);
             }
-            return uniqueOrs.Count;
+            return rows;
         }
     }
 }
