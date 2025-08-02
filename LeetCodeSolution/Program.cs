@@ -2,31 +2,30 @@
 {
     class Program
     {
-        // 01/08/2025 | 118. Pascal's Triangle
+        // 02/08/2025 | 3158. Find the XOR of Numbers Which Appear Twice
         // ez
         public static void Main()
         {
-            Console.WriteLine(Solution(5)); // Example input  
-            Console.WriteLine(Solution(1)); // Example input  
+            Console.WriteLine(Solution([1, 2, 1, 3])); // Example input  
+            Console.WriteLine(Solution([1, 2, 2, 1])); // Example input  
         }
 
-        public static IList<IList<int>> Solution(int numRows)
+        public static int Solution(int[] nums)
         {
-            List<IList<int>> rows = new List<IList<int>>();
-            for (int i = 0; i < numRows; i++)
+            int sum = 0;
+            int[] freq = new int[51];
+            foreach (int x in nums)
             {
-                List<int> row = new List<int>();
-                for (int j = 0; j <= i; j++)
-                {
-                    if (j == 0 || j == i)
-                    {
-                        row.Add(1);
-                    }
-                    else row.Add(rows[i - 1][j - 1] + rows[i - 1][j]);
-                }
-                rows.Add(row);
+                freq[x]++;
             }
-            return rows;
+            for (int i = 0; i < freq.Length; i++)
+            {
+                if (freq[i] == 2)
+                {
+                    sum ^= i;
+                }
+            }
+            return sum;
         }
     }
 }
