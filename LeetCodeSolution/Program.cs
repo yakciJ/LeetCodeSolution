@@ -2,50 +2,39 @@
 {
     class Program
     {
-        // 03/08/2025 | 2609. Find the Longest Balanced Substring of a Binary String
+        // 03/08/2025 | 896. Monotonic Array
         // ez
         public static void Main()
         {
-            //Console.WriteLine(Solution("01000111")); // Example input  
-            //Console.WriteLine(Solution("00111")); // Example input  
-            Console.WriteLine(Solution("101001000000000011110000000011111111111111")); // Example input  
+            Console.WriteLine(Solution([1, 2, 2, 3])); // Example input  
+            Console.WriteLine(Solution([6, 5, 4, 4])); // Example input  
+            Console.WriteLine(Solution([1, 3, 2])); // Example input  
         }
 
-        public static int Solution(string s)
+        public static bool Solution(int[] nums)
         {
-            int max = 0;
-            int countZero = 0;
-            int countOne = 0;
-            bool zeroFirst = false;
-            bool oneAfter = false;
-            foreach (char c in s)
+            string status = null;
+            if (nums.Length == 1) return true;
+            for (int i = 0; i < nums.Length - 1; i++)
             {
-                if (c == '0')
+                if (status == null && nums[i] < nums[i + 1])
                 {
-                    if (oneAfter)
-                    {
-                        max = Math.Max(max, Math.Min(countOne, countZero) * 2);
-                        oneAfter = false;
-                        countOne = 0;
-                        countZero = 0;
-                    }
-                    countZero++;
-                    zeroFirst = true;
+                    status = "increasing";
                 }
-                else if (zeroFirst)
+                else if (status == null && nums[i] > nums[i + 1])
                 {
-                    countOne++;
-                    if (zeroFirst) oneAfter = true;
+                    status = "decreasing";
+                }
+                if (nums[i] < nums[i + 1] && status == "decreasing")
+                {
+                    return false;
+                }
+                else if (nums[i] > nums[i + 1] && status == "increasing")
+                {
+                    return false;
                 }
             }
-            if (oneAfter)
-            {
-                max = Math.Max(max, Math.Min(countOne, countZero) * 2);
-                oneAfter = false;
-                countOne = 0;
-                countZero = 0;
-            }
-            return max;
+            return true;
         }
     }
 }
