@@ -2,30 +2,50 @@
 {
     class Program
     {
-        // 02/08/2025 | 3158. Find the XOR of Numbers Which Appear Twice
+        // 03/08/2025 | 2609. Find the Longest Balanced Substring of a Binary String
         // ez
         public static void Main()
         {
-            Console.WriteLine(Solution([1, 2, 1, 3])); // Example input  
-            Console.WriteLine(Solution([1, 2, 2, 1])); // Example input  
+            //Console.WriteLine(Solution("01000111")); // Example input  
+            //Console.WriteLine(Solution("00111")); // Example input  
+            Console.WriteLine(Solution("101001000000000011110000000011111111111111")); // Example input  
         }
 
-        public static int Solution(int[] nums)
+        public static int Solution(string s)
         {
-            int sum = 0;
-            int[] freq = new int[51];
-            foreach (int x in nums)
+            int max = 0;
+            int countZero = 0;
+            int countOne = 0;
+            bool zeroFirst = false;
+            bool oneAfter = false;
+            foreach (char c in s)
             {
-                freq[x]++;
-            }
-            for (int i = 0; i < freq.Length; i++)
-            {
-                if (freq[i] == 2)
+                if (c == '0')
                 {
-                    sum ^= i;
+                    if (oneAfter)
+                    {
+                        max = Math.Max(max, Math.Min(countOne, countZero) * 2);
+                        oneAfter = false;
+                        countOne = 0;
+                        countZero = 0;
+                    }
+                    countZero++;
+                    zeroFirst = true;
+                }
+                else if (zeroFirst)
+                {
+                    countOne++;
+                    if (zeroFirst) oneAfter = true;
                 }
             }
-            return sum;
+            if (oneAfter)
+            {
+                max = Math.Max(max, Math.Min(countOne, countZero) * 2);
+                oneAfter = false;
+                countOne = 0;
+                countZero = 0;
+            }
+            return max;
         }
     }
 }
