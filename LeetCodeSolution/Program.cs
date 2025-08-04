@@ -2,39 +2,64 @@
 {
     class Program
     {
-        // 03/08/2025 | 896. Monotonic Array
-        // ez
+        // 04/08/2025 | 904. Fruit Into Baskets
+        // med
         public static void Main()
         {
-            Console.WriteLine(Solution([1, 2, 2, 3])); // Example input  
-            Console.WriteLine(Solution([6, 5, 4, 4])); // Example input  
-            Console.WriteLine(Solution([1, 3, 2])); // Example input  
+            Console.WriteLine(Solution([3, 3, 3, 1, 2, 1, 1, 2, 3, 3, 4]
+
+));
+            //Console.WriteLine(Solution([0, 1, 2, 2]));
+            //Console.WriteLine(Solution([1, 2, 3, 2, 2]));
         }
 
-        public static bool Solution(int[] nums)
+        public static int Solution(int[] fruits)
         {
-            string status = null;
-            if (nums.Length == 1) return true;
-            for (int i = 0; i < nums.Length - 1; i++)
+            int max = 0;
+            int count = 0;
+            int present = 0;
+            int last = 0;
+            int fruit1 = -1;
+            int fruit2 = -1;
+            for (int i = 0; i < fruits.Length; i++)
             {
-                if (status == null && nums[i] < nums[i + 1])
+                Console.WriteLine(count);
+                Console.WriteLine("fruit 1: " + fruit1);
+                Console.WriteLine("fruit 2: " + fruit2);
+                Console.WriteLine("present: " + present);
+                Console.WriteLine("last: " + last);
+                if (fruit1 == -1)
                 {
-                    status = "increasing";
+                    fruit1 = fruits[i];
+                    present = fruits[i];
                 }
-                else if (status == null && nums[i] > nums[i + 1])
+                else if (fruit2 == -1)
                 {
-                    status = "decreasing";
+                    fruit2 = fruits[i];
                 }
-                if (nums[i] < nums[i + 1] && status == "decreasing")
+                if (fruits[i] == fruit1 || fruits[i] == fruit2)
                 {
-                    return false;
+                    count++;
                 }
-                else if (nums[i] > nums[i + 1] && status == "increasing")
+                else
                 {
-                    return false;
+                    if (count > max) max = count;
+                    count = last + 1;
+                    fruit1 = fruits[i - 1];
+                    fruit2 = fruits[i];
+                }
+                if (fruits[i] != present)
+                {
+                    present = fruits[i];
+                    last = 1;
+                }
+                else
+                {
+                    last++;
                 }
             }
-            return true;
+            if (count > max) max = count;
+            return max;
         }
     }
 }
