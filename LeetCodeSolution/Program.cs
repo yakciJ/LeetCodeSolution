@@ -2,31 +2,40 @@
 {
     class Program
     {
-        // 05/08/2025 | 3477. Fruits Into Baskets II
+        // 05/08/2025 | 2309. Greatest English Letter in Upper and Lower Case
         // ez
         public static void Main()
         {
-            Console.WriteLine(Solution([4, 2, 5], [3, 5, 4]));
-            Console.WriteLine(Solution([3, 6, 1], [6, 4, 7]));
-            //Console.WriteLine(Solution([1, 2, 3, 2, 2]));
+            Console.WriteLine(Solution("lEeTcOdE"));
+            Console.WriteLine(Solution("arRAzFif"));
+            Console.WriteLine(Solution("AbCdEfGhIjK"));
         }
 
-        public static int Solution(int[] fruits, int[] baskets)
+        public static string Solution(string s)
         {
-            int count = 0;
-            foreach (var fruit in fruits)
+            bool[] nor = new bool[26];
+            bool[] upper = new bool[26];
+            string a = "";
+            for (int i = 0; i < s.Length; i++)
             {
-                for (int j = 0; j < baskets.Length; j++)
+                if (char.IsUpper(s[i]))
                 {
-                    if (baskets[j] >= fruit)
-                    {
-                        count++;
-                        baskets[j] = 0;
-                        break;
-                    }
+                    upper[s[i] - 'A'] = true;
+                }
+                else
+                {
+                    nor[s[i] - 'a'] = true;
                 }
             }
-            return fruits.Length - count;
+            for (int i = 25; i >= 0; i--)
+            {
+                if (nor[i] == true && upper[i] == true)
+                {
+                    a = ((char)('A' + i)).ToString();
+                    return a;
+                }
+            }
+            return a;
         }
     }
 }
