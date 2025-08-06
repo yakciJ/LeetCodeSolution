@@ -2,40 +2,56 @@
 {
     class Program
     {
-        // 05/08/2025 | 2309. Greatest English Letter in Upper and Lower Case
+        // 06/08/2025 | 2299. Strong Password Checker II
         // ez
         public static void Main()
         {
-            Console.WriteLine(Solution("lEeTcOdE"));
-            Console.WriteLine(Solution("arRAzFif"));
-            Console.WriteLine(Solution("AbCdEfGhIjK"));
+            Console.WriteLine(Solution("IloveLe3tcode!"));
+            Console.WriteLine(Solution("Me+You--IsMyDream"));
+            Console.WriteLine(Solution("1aB!"));
         }
 
-        public static string Solution(string s)
+        public static bool Solution(string password)
         {
-            bool[] nor = new bool[26];
-            bool[] upper = new bool[26];
-            string a = "";
-            for (int i = 0; i < s.Length; i++)
+            if (password.Length < 8)
             {
-                if (char.IsUpper(s[i]))
+                return false;
+            }
+            bool LowerCase = false;
+            bool UpperCase = false;
+            bool Digit = false;
+            bool SpecialChar = false;
+            char before = '.';
+            for (int i = 0; i < password.Length; i++)
+            {
+                char ch = password[i];
+                if (ch == before)
                 {
-                    upper[s[i] - 'A'] = true;
+                    return false;
                 }
-                else
+                else before = ch;
+                if (char.IsDigit(ch))
                 {
-                    nor[s[i] - 'a'] = true;
+                    Digit = true;
+                }
+                if (char.IsUpper(ch))
+                {
+                    UpperCase = true;
+                }
+                if (char.IsLower(ch))
+                {
+                    LowerCase = true;
+                }
+                if (!char.IsLetterOrDigit(ch))
+                {
+                    SpecialChar = true;
                 }
             }
-            for (int i = 25; i >= 0; i--)
+            if (LowerCase == false || UpperCase == false || Digit == false || SpecialChar == false)
             {
-                if (nor[i] == true && upper[i] == true)
-                {
-                    a = ((char)('A' + i)).ToString();
-                    return a;
-                }
+                return false;
             }
-            return a;
+            return true;
         }
     }
 }
