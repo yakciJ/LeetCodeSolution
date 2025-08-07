@@ -2,56 +2,39 @@
 {
     class Program
     {
-        // 06/08/2025 | 2299. Strong Password Checker II
+        // 07/08/2025 | 171. Excel Sheet Column Number
         // ez
         public static void Main()
         {
-            Console.WriteLine(Solution("IloveLe3tcode!"));
-            Console.WriteLine(Solution("Me+You--IsMyDream"));
-            Console.WriteLine(Solution("1aB!"));
+            Console.WriteLine(Solution([-100, -2, -3, 1]));
+            Console.WriteLine(Solution([1, 2, 3, 4]));
+            Console.WriteLine(Solution([-1, -2, -3]));
         }
 
-        public static bool Solution(string password)
+        public static int Solution(int[] nums)
         {
-            if (password.Length < 8)
+            int[] max = new int[] { int.MinValue, int.MinValue, int.MinValue };
+            int[] min = new int[] { int.MaxValue, int.MaxValue };
+            for (int i = 0; i < nums.Length; i++)
             {
-                return false;
-            }
-            bool LowerCase = false;
-            bool UpperCase = false;
-            bool Digit = false;
-            bool SpecialChar = false;
-            char before = '.';
-            for (int i = 0; i < password.Length; i++)
-            {
-                char ch = password[i];
-                if (ch == before)
+                if (nums[i] > max[0])
                 {
-                    return false;
+                    max[0] = nums[i];
+                    Array.Sort(max);
                 }
-                else before = ch;
-                if (char.IsDigit(ch))
+                if (nums[i] < 0 && nums[i] < min[1])
                 {
-                    Digit = true;
-                }
-                if (char.IsUpper(ch))
-                {
-                    UpperCase = true;
-                }
-                if (char.IsLower(ch))
-                {
-                    LowerCase = true;
-                }
-                if (!char.IsLetterOrDigit(ch))
-                {
-                    SpecialChar = true;
+                    min[1] = nums[i];
+                    Array.Sort(min);
                 }
             }
-            if (LowerCase == false || UpperCase == false || Digit == false || SpecialChar == false)
+            int res = max[0] * max[1] * max[2];
+            if (min[0] != int.MaxValue && min[1] != int.MaxValue)
             {
-                return false;
+                int max2 = min[0] * min[1] * max[2];
+                res = Math.Max(res, max2);
             }
-            return true;
+            return res;
         }
     }
 }
