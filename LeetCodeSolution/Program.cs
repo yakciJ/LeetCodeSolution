@@ -2,38 +2,40 @@
 {
     class Program
     {
-        // 08/08/2025 | 2639. Find the Width of Columns of a Grid
+        // 08/08/2025 | 2855. Minimum Right Shifts to Sort the Array
         // ez
         public static void Main()
         {
-            Console.WriteLine(Solution([[1], [22], [333]]));
-            Console.WriteLine(Solution([[-15, 1, 3], [15, 7, 12], [5, 6, -2]]));
-            //Console.WriteLine(Solution([-1, -2, -3]));
+            Console.WriteLine(Solution([3, 4, 5, 1, 2]));
+            Console.WriteLine(Solution([31, 72, 79, 25]));
+            Console.WriteLine(Solution([2, 1, 4]));
         }
 
-        public static int[] Solution(int[][] grid)
+        public static int Solution(IList<int> nums)
         {
-            int[] ans = new int[grid[0].Length];
-            for (int i = 0; i < grid.Length; i++)
+            int res = -2;
+            bool only = false;
+            for (int i = 0; i < nums.Count - 1; i++)
             {
-                for (int j = 0; j < grid[i].Length; j++)
+                if (nums[i] > nums[i + 1])
                 {
-                    int temp = grid[i][j];
-                    int count = 0;
-                    if (temp <= 0)
+                    if (only)
                     {
-                        count++;
-                        temp *= -1;
+                        return -1;
                     }
-                    while (temp > 0)
-                    {
-                        temp /= 10;
-                        count++;
-                    }
-                    if (ans[j] < count) ans[j] = count;
+                    res = i;
+                    only = true;
                 }
             }
-            return ans;
+            if (nums[nums.Count - 1] > nums[0] && only)
+            {
+                return -1;
+            }
+            if (res == -2)
+            {
+                return 0;
+            }
+            return nums.Count - res - 1;
         }
     }
 }
