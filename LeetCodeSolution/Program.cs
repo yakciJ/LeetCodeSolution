@@ -2,40 +2,19 @@
 {
     class Program
     {
-        // 08/08/2025 | 2855. Minimum Right Shifts to Sort the Array
+        // 09/08/2025 | 231. Power of Two
         // ez
         public static void Main()
         {
-            Console.WriteLine(Solution([3, 4, 5, 1, 2]));
-            Console.WriteLine(Solution([31, 72, 79, 25]));
-            Console.WriteLine(Solution([2, 1, 4]));
+            Console.WriteLine(Solution(1));
+            Console.WriteLine(Solution(16));
+            Console.WriteLine(Solution(3));
         }
 
-        public static int Solution(IList<int> nums)
+        public static bool Solution(int n)
         {
-            int res = -2;
-            bool only = false;
-            for (int i = 0; i < nums.Count - 1; i++)
-            {
-                if (nums[i] > nums[i + 1])
-                {
-                    if (only)
-                    {
-                        return -1;
-                    }
-                    res = i;
-                    only = true;
-                }
-            }
-            if (nums[nums.Count - 1] > nums[0] && only)
-            {
-                return -1;
-            }
-            if (res == -2)
-            {
-                return 0;
-            }
-            return nums.Count - res - 1;
+            return (n > 0 && (n & (n - 1)) == 0);
+            // giải thích: mũ 2 luôn luôn chỉ có 1 bit 1, nghĩa là vd: 8 = 1000, 2 = 10, .... nên n - 1 sẽ biến toàn bộ bit sau số 1 duy nhất đó thành 1 và số 1 đó sẽ thành số 0, 7 = 0111, 1 = 1, nên n & (n-1), & là cả 2 bit = 1 thì mới = 1, nên 1000 với 0111 thì sẽ thành 0000 = 0.
         }
     }
 }
