@@ -2,36 +2,44 @@
 {
     class Program
     {
-        // 10/08/2025 | 2108. Find First Palindromic String in the Array
+        // 11/08/2025 | 1913. Maximum Product Difference Between Two Pairs
         // ez
         // 
         public static void Main()
         {
-            Console.WriteLine(Solution(["abc", "car", "ada", "racecar", "cool"]));
-            Console.WriteLine(Solution(["notapalindrome", "racecar"]));
-            Console.WriteLine(Solution(["po", "zsz"]));
+            Console.WriteLine(Solution([5, 6, 2, 7, 4]));
+            Console.WriteLine(Solution([4, 2, 5, 9, 7, 4, 8]));
+            //Console.WriteLine(Solution(["po", "zsz"]));
         }
 
-        public static string Solution(string[] words)
+        public static int Solution(int[] nums)
         {
-            foreach (string word in words)
+            int num1 = int.MaxValue;
+            int num2 = int.MaxValue;
+            int num3 = int.MinValue;
+            int num4 = int.MinValue;
+            for (int i = 0; i < nums.Length; i++)
             {
-                bool isPalindrome = true;
-                int length = word.Length;
-                for (int i = 0; i < word.Length / 2 + 1; i++)
+                if (nums[i] > num4)
                 {
-                    if (word[i] != word[length - i - 1])
-                    {
-                        isPalindrome = false;
-                        break;
-                    }
+                    num3 = num4;
+                    num4 = nums[i];
                 }
-                if (isPalindrome)
+                else if (nums[i] > num3)
                 {
-                    return word;
+                    num3 = nums[i];
+                }
+                if (nums[i] < num2)
+                {
+                    num1 = num2;
+                    num2 = nums[i];
+                }
+                else if (nums[i] < num1)
+                {
+                    num1 = nums[i];
                 }
             }
-            return "";
+            return (num3 * +num4) - (num1 * num2);
         }
     }
 }
