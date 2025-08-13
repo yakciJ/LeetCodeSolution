@@ -2,30 +2,39 @@
 {
     class Program
     {
-        // 12/08/2025 | 342. Power of Four
+        // 13/08/2025 | 326. Power of Three
         // ez
         // lam ez de danh thoi gian cho prj
         public static void Main()
         {
-            Console.WriteLine(Solution(16));
-            Console.WriteLine(Solution(5));
-            Console.WriteLine(Solution(1));
+            Console.WriteLine(Solution(27));
+            Console.WriteLine(Solution(0));
+            Console.WriteLine(Solution(-1));
         }
 
         public static bool Solution(int n)
         {
-            if (n == 1)
+            if (n < 1)
             {
-                return true;
+                return false;
             }
-            double a = n;
-            while (a > 1)
+            while (n % 3 == 0)
             {
-                if ((a /= 4) == 1) return true;
+                n = n / 3;
             }
-            return false;
+            return n == 1;
+            //if (n == 1)
+            //{
+            //    return true;
+            //}
+            //double a = n;
+            //while (a > 1)
+            //{
+            //    if ((a /= 3) == 1) return true;
+            //}
+            //return false;
         }
-        // con 1 cach nua la giong nhu 2^, cung chi co 1 so 1 trong hệ nhị phân, nhưng thêm điều kiện nữa là số 1 đó ở vị trí chẵn, 2,4,6,8,...
+        // còn 1 cách nữa là lớn hơn 0, và chia hết cho số mũ lớn nhất của 3 trong int, nghĩa là 1162261467 % n == 0;
     }
 }
 
