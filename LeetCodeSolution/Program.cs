@@ -2,39 +2,44 @@
 {
     class Program
     {
-        // 13/08/2025 | 326. Power of Three
+        // 14/08/2025 | 2264. Largest 3-Same-Digit Number in String
         // ez
         // lam ez de danh thoi gian cho prj
         public static void Main()
         {
-            Console.WriteLine(Solution(27));
-            Console.WriteLine(Solution(0));
-            Console.WriteLine(Solution(-1));
+            Console.WriteLine(Solution("6777133339"));
+            Console.WriteLine(Solution("2300019"));
+            Console.WriteLine(Solution("42352338"));
         }
 
-        public static bool Solution(int n)
+        public static string Solution(string num)
         {
-            if (n < 1)
+            char present = num[0];
+            int count = 1;
+            int max = -1;
+            for (int i = 1; i < num.Length; i++)
             {
-                return false;
+                if (num[i] == present)
+                {
+                    count++;
+                }
+                else
+                {
+                    count = 1;
+                    present = num[i];
+                }
+                if (count == 3)
+                {
+                    max = Math.Max(num[i] - '0', max);
+                }
             }
-            while (n % 3 == 0)
+            string a = max.ToString();
+            if (a != "-1")
             {
-                n = n / 3;
+                return a + a + a;
             }
-            return n == 1;
-            //if (n == 1)
-            //{
-            //    return true;
-            //}
-            //double a = n;
-            //while (a > 1)
-            //{
-            //    if ((a /= 3) == 1) return true;
-            //}
-            //return false;
+            return "";
         }
-        // còn 1 cách nữa là lớn hơn 0, và chia hết cho số mũ lớn nhất của 3 trong int, nghĩa là 1162261467 % n == 0;
     }
 }
 
